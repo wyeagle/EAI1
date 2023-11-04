@@ -8,6 +8,7 @@ import com.wang.study.ai.data.TrainingData;
 import com.wang.study.ai.data.TrainingSet;
 import com.wang.study.ai.network.result.EpochResult;
 import com.wang.study.ai.network.result.NetworkResult;
+import com.wang.study.ai.util.LocalUtil;
 import com.wang.study.ai.util.NumUtil;
 import com.wang.study.ai.util.PubUtil;
 
@@ -30,9 +31,9 @@ public class Network extends NetworkUnit {
 
     double _rate = 0d;
 
-    private boolean _assignWeightFlag = false;
+    boolean _assignWeightFlag = false;
 
-    private WorkMemory _memory;
+    WorkMemory _memory;
 
     public static Network build(int xNumber,int[] neuronNumOfLayers,double delta,double rate,int epoch, int batchSize){
         List<Layer> layerList = new ArrayList<Layer>(neuronNumOfLayers.length);
@@ -182,6 +183,7 @@ public class Network extends NetworkUnit {
 
     void adjustWeight(){
         _memory.addAdjustCount();
+        LogAction.logFirstAdjustW(this);
         for(Layer layer:_layerList){
             layer.adjustWeight();
         }

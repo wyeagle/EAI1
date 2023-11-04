@@ -1,28 +1,25 @@
 package com.wang.study.ai.network;
 
+
 import com.wang.study.ai.common.CommonTest;
-import com.wang.study.ai.common.TrainStatus;
-import com.wang.study.ai.data.ptype.DefaultPreType;
-import com.wang.study.ai.function.activation.SigmoidFunction;
-import com.wang.study.ai.function.cost.BCECostFunction;
-import com.wang.study.ai.function.cost.CostFunction;
-import com.wang.study.ai.function.cost.MSECostFunction;
+import com.wang.study.ai.common.TestParam;
 import com.wang.study.ai.data.TrainingData;
 import com.wang.study.ai.data.TrainingSet;
+import com.wang.study.ai.data.ptype.DefaultPreType;
+import com.wang.study.ai.function.activation.SigmoidFunction;
+import com.wang.study.ai.function.cost.MSECostFunction;
 import com.wang.study.ai.network.result.EpochResult;
 import com.wang.study.ai.network.result.NetworkResult;
-import com.wang.study.ai.util.NumUtil;
-import com.wang.study.ai.util.PubUtil;
-import org.junit.After;
+import com.wang.study.ai.util.LocalUtil;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class NetworkTest00 extends CommonTest {
+    ThreadLocal<Map<String,Object>> _loaal = new ThreadLocal<Map<String, Object>>();
 
     @Test
     public void testRun_01() throws Exception{
@@ -54,6 +51,69 @@ public class NetworkTest00 extends CommonTest {
             ds[i] = d;
         }
         return ds;
+    }
+
+    @Test
+    public void testRun_02() throws Exception{
+
+
+        TestParam tp = new TestParam();
+        tp.cf = new MSECostFunction();
+        tp.xNumber = 3;
+        tp.delta = 0.0001d;
+        tp.rate = 0.1d;
+        tp.batchSize = 100;
+        tp.neuronNumOfLayers = new int[]{3,3,2};
+        tp.epoch = 1;
+
+        tp.trainingFile = "Network/nts01.txt";
+        tp.testFile = tp.trainingFile;
+        tp.compareDelta = 0.5d;
+        tp.logType = 9;
+
+
+        testTrain(tp);
+    }
+
+    @Test
+    public void testBP() throws Exception{
+        String json = "{\"xnumber\":3,\"neuronNumOfLayers\":[3,3,2],\"delta\":1.0E-4,\"rate\":0.1,\"epoch\":1,\"batchSize\":100," +
+                "\"activationFuncs\":[\"com.wang.study.ai.function.activation.SigmoidFunction\",\"com.wang.study.ai.function.activation.SigmoidFunction\"," +
+                "\"com.wang.study.ai.function.activation.SigmoidFunction\"],\"costFunc\":\"com.wang.study.ai.function.cost.MSECostFunction\"," +
+                "\"weights\":[[-0.72,0.34,0.78,-0.43]," +
+                "[0.32,0.92,0.49,-0.10]," +
+                "[0.38,0.30,3.06,0.07]," +
+                "[0.73,1.39,0.13,-2.53]," +
+                "[0.77,0.31,1.67,-3.83]," +
+                "[-0.01,-2.88,0.96,0.59]," +
+                "[1.15,1.84,0.82,0.79]," +
+                "[-2.54,-1.56,-0.47,-0.79]]}";
+
+        Network network = NetworkUtil.json2Network(json);
+
+        TrainingSet trainingSet = prepareTrainingSet("Network/nts01.txt");
+        trainingSet.preprocessing(new DefaultPreType());
+
+        LocalUtil.add("UNITTEST",new Boolean(true));
+
+        NetworkResult result = network.train(trainingSet, true);
+
+        NetworkConfig config = (NetworkConfig)LocalUtil.get("NETWORK");
+
+        //TODO 比较weights
+        List<double[]> actualWeights = config.getWeights();
+
+        List<double[]> expectedWeights = new ArrayList<>();
+        expectedWeights.add(new double[]{-0.70697,2,3,4});
+        expectedWeights.add(new double[]{1,2,3,4});
+        expectedWeights.add(new double[]{1,2,3,4});
+        expectedWeights.add(new double[]{1,2,3,4});
+        expectedWeights.add(new double[]{1,2,3,4});
+        expectedWeights.add(new double[]{1,2,3,4});
+        expectedWeights.add(new double[]{1,2,3,4});
+        expectedWeights.add(new double[]{1,2,3,4});
+
+        compareList(expectedWeights,actualWeights);
     }
 
 }

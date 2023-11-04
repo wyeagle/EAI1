@@ -45,10 +45,10 @@ public class NetworkTest11 extends CommonTest {
 
         List<int[]> nums = new ArrayList<>();
 
-        //nums.add(new int[]{2, 1});
+        nums.add(new int[]{2, 1});
         //nums.add(new int[]{3, 1});
         //nums.add(new int[]{4, 1});
-        nums.add(new int[]{5, 1});
+        //nums.add(new int[]{5, 1});
 
         for (CostFunction cf : functions) {
             tp.cf = cf;

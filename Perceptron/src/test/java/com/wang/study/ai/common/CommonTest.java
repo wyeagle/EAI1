@@ -16,10 +16,23 @@ import com.wang.study.ai.util.TestUtil;
 import org.junit.Assert;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class CommonTest {
 
+    protected void compareList(List<double[]> expecteds, List<double[]> actuals){
+        Assert.assertEquals(expecteds.size(),actuals.size());
+        for(int i=0;i<expecteds.size();i++){
+            double[] es = expecteds.get(i);
+            double[] as = actuals.get(i);
+            Assert.assertEquals(es.length,as.length);
 
+            for(int j=0;j<es.length;j++){
+                System.out.println(i+":"+j+" = "+es[j]+":"+as[j]);
+                Assert.assertEquals(es[j],as[j],0.00001d);
+            }
+        }
+    }
 
     protected TrainingSet prepareTrainingSet(String file){
         try {
@@ -77,11 +90,12 @@ public class CommonTest {
         System.out.println("total error = " + PubUtil.print(avgError) + ": avgError = " + PubUtil.print(avgError / testSet.size()));
     }
 
-    protected void compareTrainingSet(NetworkResult netResult, String file, double delta) throws Exception{
+    protected void compareTrainingSet(NetworkResult netResult, String file, double delta, int logType) throws Exception{
         TrainingSet testSet = prepareTrainingSet(file);
 
         EpochResult bestResult = netResult.bestResult();
-        System.out.println("total time/diff/adjustCount = "+netResult._totalTime+" / "+PubUtil.print(netResult._totalDiff)+" / "+netResult._totalAdjustCount);
+        if(logType >= 1)
+            System.out.println("total time/diff/adjustCount = "+netResult._totalTime+" / "+PubUtil.print(netResult._totalDiff)+" / "+netResult._totalAdjustCount);
 
         //int size = netResult.getEporchResults().size();
 
@@ -89,7 +103,8 @@ public class CommonTest {
         //for(int index=size-1;index>=0;index--) {
             //EpochResult eResult = netResult.getEporchResults().get(index);
         Network network = NetworkUtil.json2Network(bestResult._networkJson);
-        System.out.println("network eporch "+bestResult);
+        if(logType > 0)
+            System.out.println("network eporch "+bestResult);
         double avgError = 0d;
         int errorCount = 0;
         for (int i = 0; i < testSet.size(); i++) {
@@ -99,10 +114,12 @@ public class CommonTest {
             for (int j = 0; j < y.length; j++) {
                 try {
                     Assert.assertEquals(data.expectedValues[j], y[j], delta);
-                    //System.out.println("test data = " + data + " : actual value = " + String.valueOf(y[j]) + " : error = " + (y[j] - data.expectedValues[j]));
+                    if(logType > 1)
+                        System.out.println("test data = " + data + " : y["+j+"] actual value = " + String.valueOf(y[j]) + " : error = " + (y[j] - data.expectedValues[j]));
                 }catch(Error e){
                     errorCount++;
-                    //System.err.println("test data = " + data + " : actual value = " + String.valueOf(y[j]) + " : error = " + (y[j] - data.expectedValues[j]));
+                    if(logType >= 1)
+                        System.err.println("test data = " + data + " : y["+j+"] actual value = " + String.valueOf(y[j]) + " : error = " + (y[j] - data.expectedValues[j]));
                 }
 
 
@@ -112,9 +129,10 @@ public class CommonTest {
         int sum = testSet.size();
         BigDecimal successRate = new BigDecimal((double)(sum - errorCount)*100/sum);
         successRate = successRate.setScale(2,BigDecimal.ROUND_HALF_DOWN);
-        System.out.println("total count/errorCount/successCount/success rate = " + sum+"/"+errorCount+"/"+(sum-errorCount)+"/"+successRate+"%");
-        System.out.println("total error = " + PubUtil.print(avgError) + ": avgError = " + PubUtil.print(avgError / testSet.size()));
-        //}
+        if(logType >= 1){
+            System.out.println("total count/errorCount/successCount/success rate = " + sum+"/"+errorCount+"/"+(sum-errorCount)+"/"+successRate+"%");
+            System.out.println("total error = " + PubUtil.print(avgError) + ": avgError = " + PubUtil.print(avgError / testSet.size()));
+        }
     }
 
 
@@ -154,7 +172,7 @@ public class CommonTest {
         Assert.assertEquals(TrainStatus.TRAIN_SUCCESS, network.getStatus());
 
         try {
-            compareTrainingSet(result, tp.testFile, tp.compareDelta);
+            compareTrainingSet(result, tp.testFile, tp.compareDelta, tp.logType);
         } catch (Exception e) {
             e.printStackTrace();
         }

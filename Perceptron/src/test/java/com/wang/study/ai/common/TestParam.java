@@ -21,6 +21,8 @@ public class TestParam {
     public double compareDelta;
     public PreType preType;
 
+    public int logType = 1;//0-全不写，1-只写失败,9-全写
+
     public String toString(){
         return cf.getClass().getSimpleName()+":"+ PubUtil.print(neuronNumOfLayers);
     }

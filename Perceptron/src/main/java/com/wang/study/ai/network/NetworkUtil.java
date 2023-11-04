@@ -9,7 +9,7 @@ import java.util.List;
 
 public class NetworkUtil {
 
-    private static NetworkConfig network2config(Network network){
+    public static NetworkConfig network2config(Network network){
         NetworkConfig config = new NetworkConfig();
 
         config.setXnumber(network.getXSize());
@@ -53,6 +53,7 @@ public class NetworkUtil {
             for(Neuron n:layer.getNeuronList()){
                 n.assignWeight(config.getWeights().get(index++));
             }
+            network._assignWeightFlag = true;
         }
         return network;
     }
