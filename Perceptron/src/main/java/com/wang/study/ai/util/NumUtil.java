@@ -121,6 +121,14 @@ public class NumUtil {
 		return newx;
 	}
 
+	public static double[] clone(double[] d){
+		double[] cd = new double[d.length];
+		for(int i=0;i<d.length;i++)
+			cd[i] = d[i];
+
+		return cd;
+	}
+
 	/**
 	 * sValue是num2Str(valueList)格式，即"1,2,3"，数字由","分隔
 	 * @param sValue

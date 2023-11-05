@@ -9,7 +9,7 @@ public class WorkMemory {
     long _adjustCount;
 
     boolean canAbort(){
-        if(_oldDiffs.size() >= 1000 || _adjustCount >= 2000000){
+        if(_oldDiffs.size() >= 1000000 || _adjustCount >= 2000000){
             System.out.println("oldDiff size = "+_oldDiffs.size()+": adjustCount = "+_adjustCount);
             return true;
         }

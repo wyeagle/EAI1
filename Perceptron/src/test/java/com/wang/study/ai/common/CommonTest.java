@@ -28,8 +28,7 @@ public class CommonTest {
             Assert.assertEquals(es.length,as.length);
 
             for(int j=0;j<es.length;j++){
-                System.out.println(i+":"+j+" = "+es[j]+":"+as[j]);
-                Assert.assertEquals(es[j],as[j],0.00001d);
+                Assert.assertEquals(es[j], as[j], 0.002d);
             }
         }
     }

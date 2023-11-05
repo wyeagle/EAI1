@@ -3,6 +3,7 @@ package com.wang.study.ai.network;
 import com.wang.study.ai.function.activation.ActivationFunction;
 import com.wang.study.ai.function.cost.CostFunction;
 import com.wang.study.ai.util.JsonMapper;
+import com.wang.study.ai.util.NumUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class NetworkUtil {
             afList.add(layer._af.getClass().getName());
 
             for(Neuron n:layer.getNeuronList()){
-                wList.add(n._w);
+                wList.add(NumUtil.clone(n._w));
             }
         }
 

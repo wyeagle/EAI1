@@ -183,10 +183,11 @@ public class Network extends NetworkUnit {
 
     void adjustWeight(){
         _memory.addAdjustCount();
-        LogAction.logFirstAdjustW(this);
+
         for(Layer layer:_layerList){
             layer.adjustWeight();
         }
+        LogAction.logFirstAdjustW(this);
     }
 
 

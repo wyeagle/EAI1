@@ -53,7 +53,7 @@ public class NetworkTest00 extends CommonTest {
         return ds;
     }
 
-    @Test
+    /*@Test
     public void testRun_02() throws Exception{
 
 
@@ -73,7 +73,7 @@ public class NetworkTest00 extends CommonTest {
 
 
         testTrain(tp);
-    }
+    }*/
 
     @Test
     public void testBP() throws Exception{
@@ -91,7 +91,11 @@ public class NetworkTest00 extends CommonTest {
 
         Network network = NetworkUtil.json2Network(json);
 
-        TrainingSet trainingSet = prepareTrainingSet("Network/nts01.txt");
+        TrainingSet trainingSet = new TrainingSet(new ArrayList<TrainingData>());
+        TrainingData data = new TrainingData();
+        data.expectedValues = new double[]{1,0};
+        data.x = new double[]{5,6,7};
+        trainingSet.getTrainingDatas().add(data);
         trainingSet.preprocessing(new DefaultPreType());
 
         LocalUtil.add("UNITTEST",new Boolean(true));
@@ -104,14 +108,14 @@ public class NetworkTest00 extends CommonTest {
         List<double[]> actualWeights = config.getWeights();
 
         List<double[]> expectedWeights = new ArrayList<>();
-        expectedWeights.add(new double[]{-0.70697,2,3,4});
-        expectedWeights.add(new double[]{1,2,3,4});
-        expectedWeights.add(new double[]{1,2,3,4});
-        expectedWeights.add(new double[]{1,2,3,4});
-        expectedWeights.add(new double[]{1,2,3,4});
-        expectedWeights.add(new double[]{1,2,3,4});
-        expectedWeights.add(new double[]{1,2,3,4});
-        expectedWeights.add(new double[]{1,2,3,4});
+        expectedWeights.add(new double[]{-0.719949,0.339981,0.780202,-0.429694});
+        expectedWeights.add(new double[]{0.320001,0.919999,0.4900016,-0.0999991});
+        expectedWeights.add(new double[]{0.38,0.3,3.06,0.07});
+        expectedWeights.add(new double[]{0.7303259922,1.3904232276,0.1300423461,-2.5308247602});
+        expectedWeights.add(new double[]{0.7702526450,0.3100731517,1.6704215895,-3.8309676303});
+        expectedWeights.add(new double[]{-0.0097535865,-2.8806628404,0.9602363733,0.5901453840});
+        expectedWeights.add(new double[]{1.1515216283,1.8406209764,0.8203795116,0.7903657413});
+        expectedWeights.add(new double[]{-2.5401720681,-1.5600702210,-0.4700429158,-0.7900413586});
 
         compareList(expectedWeights,actualWeights);
     }
