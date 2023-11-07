@@ -84,6 +84,7 @@ public class Network extends NetworkUnit {
         for(int i=0;i<_epoch;i++) {
             long startTime = System.currentTimeMillis();
             clear(trainingSet);
+
             while (true) {
                 batchNum++;
                 _memory.clearDiff();
@@ -125,6 +126,7 @@ public class Network extends NetworkUnit {
 
             TrainingData data = miniDatas.get(i);
             double[] actualOutputs = run(data.x);
+            //System.err.println("test data = " + data + " :  actual value = " + PubUtil.print(actualOutputs));
 
             //_delta用于做权重调整，如调整量<_delta，则w不用调整。因此这里实际值和期望值就不用delta
             double[] currDiffs = NumUtil.diff(actualOutputs,data.expectedValues,0);
@@ -165,6 +167,53 @@ public class Network extends NetworkUnit {
         }*/
 
         adjustWeight();
+
+        return isOver;
+    }
+
+    private boolean singleTrain1(int batchNo, int count, List<TrainingData> miniDatas) throws Exception{
+        //误差
+        double diff = 0d;
+        //是否完成，需要检查每个调整权重小于delta.
+        boolean isOver = false;
+
+        int errorCount = 0;
+        List<TrainingData> errorDatas = new ArrayList<>();
+        for (int i = 0; i < miniDatas.size(); i++) {
+
+            TrainingData data = miniDatas.get(i);
+            double[] actualOutputs = run(data.x);
+            //System.err.println("test data = " + data + " :  actual value = " + PubUtil.print(actualOutputs));
+
+            //_delta用于做权重调整，如调整量<_delta，则w不用调整。因此这里实际值和期望值就不用delta
+            double[] currDiffs = NumUtil.diff(actualOutputs,data.expectedValues,0.03);
+            //没有偏差
+            if(currDiffs == null){
+                continue;
+            }
+
+            errorDatas.add(data);
+
+            //System.err.println("Adjust data = "+data);
+            //仅对输出层设置预期值
+            lastLayer().setExpectedValue(data.expectedValues);
+
+            calcWeight();
+
+            adjustWeight();
+            //System.out.println("1");
+        }
+
+        if(errorDatas.size() == 0){
+            System.out.println("errorCount = 0 ");
+            isOver = true;
+        }
+
+        if(_memory.canAbort() ){
+            isOver = true;
+        }
+
+
 
         return isOver;
     }

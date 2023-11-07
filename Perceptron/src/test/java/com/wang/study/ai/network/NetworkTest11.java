@@ -35,13 +35,14 @@ public class NetworkTest11 extends CommonTest {
         TestParam tp = new TestParam();
         tp.xNumber = 2;
         tp.delta = 0.0001d;
-        tp.rate = 0.1d;
+        tp.rate = 0.2d;
         tp.batchSize = 500;
-        tp.epoch = 5;
+        tp.epoch = 1;
 
         tp.trainingFile = "Network/nts11_1.txt";
         tp.testFile = "Network/nts11_9.txt";
-        tp.compareDelta = 0.5d;
+        tp.compareDelta = 0.01d;
+        tp.logType = 0;
 
         List<int[]> nums = new ArrayList<>();
 

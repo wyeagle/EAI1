@@ -91,6 +91,8 @@ public class NetworkTest00 extends CommonTest {
 
         Network network = NetworkUtil.json2Network(json);
 
+        NetworkConfig orginConfig = NetworkUtil.network2config(network);
+
         TrainingSet trainingSet = new TrainingSet(new ArrayList<TrainingData>());
         TrainingData data = new TrainingData();
         data.expectedValues = new double[]{1,0};
@@ -108,16 +110,17 @@ public class NetworkTest00 extends CommonTest {
         List<double[]> actualWeights = config.getWeights();
 
         List<double[]> expectedWeights = new ArrayList<>();
-        expectedWeights.add(new double[]{-0.719949,0.339981,0.780202,-0.429694});
-        expectedWeights.add(new double[]{0.320001,0.919999,0.4900016,-0.0999991});
-        expectedWeights.add(new double[]{0.38,0.3,3.06,0.07});
-        expectedWeights.add(new double[]{0.7303259922,1.3904232276,0.1300423461,-2.5308247602});
-        expectedWeights.add(new double[]{0.7702526450,0.3100731517,1.6704215895,-3.8309676303});
-        expectedWeights.add(new double[]{-0.0097535865,-2.8806628404,0.9602363733,0.5901453840});
-        expectedWeights.add(new double[]{1.1515216283,1.8406209764,0.8203795116,0.7903657413});
-        expectedWeights.add(new double[]{-2.5401720681,-1.5600702210,-0.4700429158,-0.7900413586});
+        expectedWeights.add(new double[]{-0.7199751188095310,0.3401244059523420,0.7801492871428110,-0.4298258316667210});
+        expectedWeights.add(new double[]{0.3200005789762100,0.9200028948810520,0.4900034738572620,-0.0999959471665271});
+        expectedWeights.add(new double[]{0.3799999999973340,0.2999999999866720,3.0599999999840100,0.0699999999813412});
+        expectedWeights.add(new double[]{0.7307411425382260,1.3906922352762400,0.1307405670772070,-2.5292588574625100});
+        expectedWeights.add(new double[]{0.7702487224685690,0.3102323095192300,1.6702485293477100,-3.8297512775316800});
+        expectedWeights.add(new double[]{-0.0097556935782184,-2.8797718151170000,0.9602441167297650,0.5902443064215390});
+        expectedWeights.add(new double[]{1.1515216282916700,1.8406209764323000,0.8203795116402450,0.7903657412964130});
+        expectedWeights.add(new double[]{-2.5401720681031500,-1.5600702209845800,-0.4700429157688640,-0.7900413585968820});
 
-        compareList(expectedWeights,actualWeights);
+
+        compareList(orginConfig.getWeights(),expectedWeights,actualWeights);
     }
 
 }

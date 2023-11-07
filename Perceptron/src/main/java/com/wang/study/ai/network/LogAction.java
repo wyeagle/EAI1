@@ -17,4 +17,8 @@ public class LogAction {
         NetworkConfig config = NetworkUtil.network2config(network);
         LocalUtil.add("NETWORK",config);
     }
+
+    public static void logIncreaseW(Network network){
+
+    }
 }

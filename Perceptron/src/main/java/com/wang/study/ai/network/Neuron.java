@@ -132,7 +132,9 @@ public class Neuron {
             dc = _cf.df(_y2,_expectedValue);
         }else{
             for(Neuron n:_nextList){
-                dc += n._e * n.getWByFrontNeuron(this);
+                double e1 = n._e;
+                double e2 = n.getWByFrontNeuron(this);
+                dc += e1*e2;
             }
         }
 
@@ -150,7 +152,7 @@ public class Neuron {
     private double getWByFrontNeuron(Neuron front){
         for(int i=0;i<_frontList.size();i++){
             if(front.equals(_frontList.get(i))){
-                return _w[i];
+                return _w[i+1];
             }
         }
         return 0d;
@@ -158,7 +160,7 @@ public class Neuron {
 
     void adjustWeight(){
         for(int i=0;i< _w.length;i++){
-            _w[i] -= _batchDw[i]/_batch;
+            _w[i] -= _batchDw[i] / _batch;
         }
 
         _batchDw = new double[_w.length];

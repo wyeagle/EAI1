@@ -9,6 +9,7 @@ public class MSECostFunction extends CostFunction {
     public double f(Object... params) {
         double diff = acutalValue(params)-expectedValue(params);
         diff *= diff;
+        //diff = diff/2;
         return diff;
     }
 

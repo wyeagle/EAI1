@@ -14,21 +14,29 @@ import com.wang.study.ai.data.TrainingSet;
 import com.wang.study.ai.util.PubUtil;
 import com.wang.study.ai.util.TestUtil;
 import org.junit.Assert;
+import sun.nio.ch.Net;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public class CommonTest {
 
-    protected void compareList(List<double[]> expecteds, List<double[]> actuals){
+    protected void compareList(List<double[]> orgins, List<double[]> expecteds, List<double[]> actuals){
         Assert.assertEquals(expecteds.size(),actuals.size());
         for(int i=0;i<expecteds.size();i++){
             double[] es = expecteds.get(i);
             double[] as = actuals.get(i);
+            double[] os = orgins.get(i);
             Assert.assertEquals(es.length,as.length);
 
+
             for(int j=0;j<es.length;j++){
-                Assert.assertEquals(es[j], as[j], 0.002d);
+
+                Assert.assertEquals(es[j], as[j], 0.0000000000001d);
+                if((es[j]-os[j])*(as[j]-os[j]) < 0){
+                    Assert.assertFalse(false);
+                }
+
             }
         }
     }
@@ -93,7 +101,7 @@ public class CommonTest {
         TrainingSet testSet = prepareTrainingSet(file);
 
         EpochResult bestResult = netResult.bestResult();
-        if(logType >= 1)
+        if(logType >= 0)
             System.out.println("total time/diff/adjustCount = "+netResult._totalTime+" / "+PubUtil.print(netResult._totalDiff)+" / "+netResult._totalAdjustCount);
 
         //int size = netResult.getEporchResults().size();
@@ -102,7 +110,7 @@ public class CommonTest {
         //for(int index=size-1;index>=0;index--) {
             //EpochResult eResult = netResult.getEporchResults().get(index);
         Network network = NetworkUtil.json2Network(bestResult._networkJson);
-        if(logType > 0)
+        if(logType >= 0)
             System.out.println("network eporch "+bestResult);
         double avgError = 0d;
         int errorCount = 0;
@@ -128,7 +136,7 @@ public class CommonTest {
         int sum = testSet.size();
         BigDecimal successRate = new BigDecimal((double)(sum - errorCount)*100/sum);
         successRate = successRate.setScale(2,BigDecimal.ROUND_HALF_DOWN);
-        if(logType >= 1){
+        if(logType >= 0){
             System.out.println("total count/errorCount/successCount/success rate = " + sum+"/"+errorCount+"/"+(sum-errorCount)+"/"+successRate+"%");
             System.out.println("total error = " + PubUtil.print(avgError) + ": avgError = " + PubUtil.print(avgError / testSet.size()));
         }
@@ -152,6 +160,35 @@ public class CommonTest {
 
         //配置cost
         network.configCostFunc(tp.cf);
+
+        TrainingSet trainingSet = prepareTrainingSet(tp.trainingFile);
+        if(tp.preType == null) {
+            trainingSet.preprocessing(new DefaultPreType());
+        } else {
+            trainingSet.preprocessing(tp.preType);
+        }
+
+
+        Assert.assertEquals(TrainStatus.TRAIN_WAITING, network.getStatus());
+
+        NetworkResult result = network.train(trainingSet, true);
+
+        EpochResult nResult = result.bestResult();
+
+
+        Assert.assertEquals(TrainStatus.TRAIN_SUCCESS, network.getStatus());
+
+        try {
+            compareTrainingSet(result, tp.testFile, tp.compareDelta, tp.logType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.err.println("End SubTest : "+ tp);
+    }
+
+    protected void testTrain(Network network,TestParam tp) throws Exception{
+        System.err.println("Start SubTest : "+ tp);
+
 
         TrainingSet trainingSet = prepareTrainingSet(tp.trainingFile);
         if(tp.preType == null) {

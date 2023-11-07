@@ -24,6 +24,10 @@ public class TestParam {
     public int logType = 1;//0-全不写，1-只写失败,9-全写
 
     public String toString(){
-        return cf.getClass().getSimpleName()+":"+ PubUtil.print(neuronNumOfLayers);
+        String str = "";
+        if(cf != null){
+            str += cf.getClass().getSimpleName()+":";
+        }
+        return str+ PubUtil.print(neuronNumOfLayers);
     }
 }
