@@ -1,5 +1,6 @@
 package com.wang.study.ai.common;
 
+import com.wang.study.ai.data.ptype.DefaultPreType;
 import com.wang.study.ai.data.ptype.PreType;
 import com.wang.study.ai.function.activation.ActivationFunction;
 import com.wang.study.ai.function.cost.CostFunction;
@@ -19,7 +20,8 @@ public class TestParam {
     public String trainingFile;
     public String testFile;
     public double compareDelta;
-    public PreType preType;
+    public PreType preType = new DefaultPreType();
+    public long maxAdjustCount = 10000;
 
     public int logType = 1;//0-全不写，1-只写失败,9-全写
 

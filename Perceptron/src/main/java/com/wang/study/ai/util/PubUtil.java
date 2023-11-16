@@ -2,15 +2,7 @@ package com.wang.study.ai.util;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PubUtil {
 	private static Random random = null;
@@ -20,32 +12,27 @@ public class PubUtil {
 
 	public static void random(List list){
 
-		for(int i=0;i<list.size();i++){
-			int index = random.nextInt(list.size());
-			Object obj = list.get(index);
-			list.remove(obj);
-			list.add(obj);
-		}
+
 	}
-	
+
 	public static boolean isEmpty(String str){
 		if(str == null || str.trim().equals("")){
 			return true;
 		}
 		return false;
 	}
-	
+
 	public static boolean isEmpty(Collection cls){
 		if(cls == null || cls.size() == 0){
 			return true;
 		}
 		return false;
 	}
-	
+
 	public static boolean isEmpty(Map map){
 		return isEmpty(map,false);
 	}
-	
+
 	/**
 	 * 检查内容是否为空
 	 * @param map
@@ -59,7 +46,7 @@ public class PubUtil {
 		if(valueFlag == false){
 			return false;
 		}
-		
+
 		Iterator iter = map.values().iterator();
 		while(iter.hasNext()){
 			Object value = iter.next();
@@ -71,10 +58,10 @@ public class PubUtil {
 				return false;
 			}
 		}
-	
+
 		return true;
 	}
-	
+
 	public static void addList(List list, Object obj){
 		if(list == null){
 			return ;
@@ -83,7 +70,7 @@ public class PubUtil {
 			list.add(obj);
 		}
 	}
-	
+
 	public static void addAllList(List list, List subList){
 		if(list == null){
 			return ;
@@ -94,7 +81,7 @@ public class PubUtil {
 			}
 		}
 	}
-	
+
 	public static int str2Int(String str,int defaultValue){
 		if(str == null || str.trim().equals("")){
 			return defaultValue;
@@ -107,8 +94,8 @@ public class PubUtil {
 		}
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * 如果返回null,则返回默认值
 	 * @param map
@@ -118,7 +105,7 @@ public class PubUtil {
 	public static Object getMapData(Map map,Object key){
 		return getMapData(map,key,null);
 	}
-	
+
 	/**
 	 * 如果返回null,则返回默认值
 	 * @param map
@@ -143,7 +130,7 @@ public class PubUtil {
 		}
 		return value;
 	}
-	
+
 	/**
 	 * 如果返回null,则返回默认值
 	 * @param map
@@ -182,23 +169,12 @@ public class PubUtil {
 		return randomInt(100000);
 	}
 
-	public static Map<String, Object> readConfig(String file) {
 
-		Map<String, Object> configMap = new HashMap<String, Object>();
-		ResourceBundle resources = ResourceBundle.getBundle(file);
-		Enumeration<String> enuKey = resources.getKeys();
-
-		while (enuKey.hasMoreElements()) {
-			String strKey = (String) enuKey.nextElement();
-			String strValue = resources.getString(strKey);
-			int index = strValue.indexOf("#");
-			if (index != -1) {
-				strValue = strValue.substring(0, index).trim();
-			}
-			configMap.put(strKey, strValue);
+	public static String substring(String str, int size){
+		if(str.length() < size){
+			return str;
 		}
-		return configMap;
-
+		return str.substring(0,size);
 	}
 
 	public static String print(Object[] os){

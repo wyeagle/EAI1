@@ -12,4 +12,8 @@ public abstract class PreType {
     }
 
     public abstract void pre();
+
+    public abstract double[] adaptExpectedValue(double[] eds);
+
+    public abstract double[] adaptParams(double[] params);
 }

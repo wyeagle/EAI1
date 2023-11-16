@@ -115,10 +115,10 @@ public class MatrixUtil {
 	 * @param matrix
 	 * @param func
 	 */
-	public static void func(Matrix matrix, BaseFunction func){
+	public static void func(Matrix matrix, BaseFunction func, double[] allOutputs){
 		for(int i=0;i< matrix.row;i++){
 			for(int j=0;j<matrix.col;j++){
-				matrix.value[i][j] = func.f(matrix.value[i][j]);
+				matrix.value[i][j] = func.f(matrix.value[i][j],allOutputs);
 			}
 		}
 	}

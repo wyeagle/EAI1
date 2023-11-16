@@ -5,4 +5,14 @@ public class DefaultPreType extends PreType{
     public void pre() {
 
     }
+
+    @Override
+    public double[] adaptExpectedValue(double[] eds) {
+        return eds;
+    }
+
+    @Override
+    public double[] adaptParams(double[] params) {
+        return params;
+    }
 }

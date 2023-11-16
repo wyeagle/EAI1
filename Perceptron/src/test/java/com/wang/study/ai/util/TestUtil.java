@@ -2,10 +2,13 @@ package com.wang.study.ai.util;
 
 import com.wang.study.ai.data.TrainingData;
 import com.wang.study.ai.data.TrainingSet;
+import com.wang.study.ai.data.ptype.PreType;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,7 @@ public class TestUtil {
         isr = new InputStreamReader(new FileInputStream(convertFile(file)),"utf-8");
         String b = null;
         br = new BufferedReader(isr);
+
         while ((b = br.readLine()) != null) {
             str.append(b);
             str.append("\n");
@@ -34,7 +38,7 @@ public class TestUtil {
      * @return
      * @throws Exception
      */
-    public static TrainingSet file2Ts(String file) throws Exception{
+    public static TrainingSet file2Ts(PreType preType,String file) throws Exception{
 
         BufferedReader br = null;
         InputStreamReader isr;
@@ -42,7 +46,7 @@ public class TestUtil {
         String b = null;
         br = new BufferedReader(isr);
 
-        List<TrainingData> trainingDatas = new ArrayList<TrainingData>();
+        TrainingSet trainingSet = new TrainingSet(preType);
         TrainingData data = null;
 
         boolean noteFlag = false;
@@ -78,18 +82,26 @@ public class TestUtil {
                 System.err.println("parse file error = "+b);
                 continue;
             }
-            trainingDatas.add(data);
+            trainingSet.addData(data);
 
         }
         br.close();
         isr.close();
 
-        TrainingSet trainingSet = new TrainingSet(trainingDatas);
+
 
         return trainingSet;
     }
 
     private static String convertFile(String file){
-        return "C:\\WorkFolder\\workspace\\EAI\\Perceptron\\src\\test\\resources\\"+file;
+        String basePath = Paths.get(System.getProperty("user.dir")).toAbsolutePath().toString();
+        String str = basePath+"\\src\\test\\resources\\";
+        return str+file;
+    }
+
+    public static void main(String[] args){
+        Path basePath = Paths.get(System.getProperty("user.dir"));
+        System.out.println(basePath.toAbsolutePath());
+
     }
 }

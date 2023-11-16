@@ -24,12 +24,12 @@ public class NetworkTest00 extends CommonTest {
     @Test
     public void testRun_01() throws Exception{
         int[] neuronNumOfLayers = new int[]{2,1};
-        Network network = Network.build(2,neuronNumOfLayers,0.001d,0.1,1,100);
+        Network network = Network.build(2,neuronNumOfLayers,0.001d,0.1,1,100,10000);
 
         network.configActivationFunc(0,new SigmoidFunction());
         network.configActivationFunc(1,new SigmoidFunction());
 
-        TrainingSet trainingSet = super.prepareTrainingSet("Network/nts00.txt");
+        TrainingSet trainingSet = super.prepareTrainingSet(new DefaultPreType(),"Network/nts00.txt");
         TrainingData data = trainingSet.get(0);
 
         double[] w = new double[]{0.278,-0.278,1d,-0.1,-1d,10d};
@@ -53,31 +53,9 @@ public class NetworkTest00 extends CommonTest {
         return ds;
     }
 
-    /*@Test
-    public void testRun_02() throws Exception{
-
-
-        TestParam tp = new TestParam();
-        tp.cf = new MSECostFunction();
-        tp.xNumber = 3;
-        tp.delta = 0.0001d;
-        tp.rate = 0.1d;
-        tp.batchSize = 100;
-        tp.neuronNumOfLayers = new int[]{3,3,2};
-        tp.epoch = 1;
-
-        tp.trainingFile = "Network/nts01.txt";
-        tp.testFile = tp.trainingFile;
-        tp.compareDelta = 0.5d;
-        tp.logType = 9;
-
-
-        testTrain(tp);
-    }*/
-
     @Test
     public void testBP() throws Exception{
-        String json = "{\"xnumber\":3,\"neuronNumOfLayers\":[3,3,2],\"delta\":1.0E-4,\"rate\":0.1,\"epoch\":1,\"batchSize\":100," +
+        String json = "{\"xnumber\":3,\"neuronNumOfLayers\":[3,3,2],\"delta\":1.0E-4,\"rate\":0.1,\"epoch\":1,\"batchSize\":100,\"maxAdjustCount\":100," +
                 "\"activationFuncs\":[\"com.wang.study.ai.function.activation.SigmoidFunction\",\"com.wang.study.ai.function.activation.SigmoidFunction\"," +
                 "\"com.wang.study.ai.function.activation.SigmoidFunction\"],\"costFunc\":\"com.wang.study.ai.function.cost.MSECostFunction\"," +
                 "\"weights\":[[-0.72,0.34,0.78,-0.43]," +
@@ -93,12 +71,11 @@ public class NetworkTest00 extends CommonTest {
 
         NetworkConfig orginConfig = NetworkUtil.network2config(network);
 
-        TrainingSet trainingSet = new TrainingSet(new ArrayList<TrainingData>());
+        TrainingSet trainingSet = new TrainingSet(new DefaultPreType());
         TrainingData data = new TrainingData();
         data.expectedValues = new double[]{1,0};
         data.x = new double[]{5,6,7};
-        trainingSet.getTrainingDatas().add(data);
-        trainingSet.preprocessing(new DefaultPreType());
+        trainingSet.addData(data);
 
         LocalUtil.add("UNITTEST",new Boolean(true));
 

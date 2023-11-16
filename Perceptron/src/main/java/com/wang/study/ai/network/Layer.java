@@ -24,6 +24,8 @@ public class Layer {
 
     private double _delta;
 
+    private double[] _y1;
+
     public static Layer build(int xNumberOfNet, int size, Layer frontLayer){
 
         List<Neuron> neuronList = new ArrayList<Neuron>(size);
@@ -34,7 +36,7 @@ public class Layer {
         }
         Layer layer = new Layer(neuronList);
         for(int i=0;i<size;i++){
-            Neuron n = Neuron.build(xNumber,frontLayer == null ? new ArrayList<Neuron>():frontLayer.getNeuronList());
+            Neuron n = Neuron.build(layer, xNumber,frontLayer == null ? new ArrayList<Neuron>():frontLayer.getNeuronList());
             layer.addNeuron(n);
         }
 
@@ -139,28 +141,21 @@ public class Layer {
 
         Matrix resultM = MatrixUtil.multiply2(wM,xM);
         double[] resultY1 = resultM.getColData(0);
-        MatrixUtil.func(resultM,_af);
+        MatrixUtil.func(resultM,_af,resultY1);
         double[] resultY2 = resultM.getColData(0);
         for(int i=0;i<_neuronList.size();i++){
             Neuron n = _neuronList.get(i);
             n.setY1(resultY1[i]);
             n.setY2(resultY2[i]);
         }
+        this._y1 = resultY1;
         return resultY2;
     }
 
-    boolean calcWeight(){
-        boolean isOver = true;
-
+    void calcWeight(){
         for(Neuron neuron:_neuronList){
-            double[] dw = neuron.calcDeltaWeight();
-            int count = NumUtil.statLargeDelta(dw,_delta);
-            if(count > 0){
-                isOver = false;
-            }
+            neuron.calcDeltaWeight();
         }
-
-        return isOver;
     }
 
     void adjustWeight(){
@@ -194,5 +189,9 @@ public class Layer {
         for(Neuron n:_neuronList){
             n.assignWeight(d);
         }
+    }
+
+    double[] getY1(){
+        return _y1;
     }
 }

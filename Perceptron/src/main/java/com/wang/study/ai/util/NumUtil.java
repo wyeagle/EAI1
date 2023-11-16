@@ -9,30 +9,30 @@ import java.util.List;
 
 /**
  * 数字计算工具类. <br>
- * 
+ *
  * @author eagle<br>
  * @version Version 1.00<br>
  */
 public class NumUtil {
-	
+
 	private static final int SCALE = 4;
 	private static final BigDecimal MINVALUE = new BigDecimal("0.00000001");
-	
+
 	public static boolean isInt(BigDecimal num){
 		return Math.abs(num.doubleValue() - num.intValue()) < MINVALUE.doubleValue();
 	}
-	
+
 	public static boolean isInt(double num){
 		return Math.abs(num - Math.round(num)) < MINVALUE.doubleValue();
 	}
-	
+
 	public static Integer max(Integer n1, Integer n2) {
 		if(n1 > n2) {
 			return n1;
 		}
 		return n2;
 	}
-	
+
 	public static Integer min(List<Integer> valueList,int minValue) {
 		if(valueList == null || valueList.size() == 0) {
 			return null;
@@ -42,13 +42,13 @@ public class NumUtil {
 			if(value < min)
 				min = value;
 		}
-		
+
 		if(min < minValue) {
 			min = minValue;
 		}
 		return min;
 	}
-	
+
 	public static Integer min(List<Integer> valueList) {
 		if(valueList == null || valueList.size() == 0) {
 			return null;
@@ -58,21 +58,21 @@ public class NumUtil {
 			if(value < min)
 				min = value;
 		}
-		
-		
+
+
 		return min;
 	}
 
-	
+
 	public static Integer min(Integer n1,Integer n2) {
-		
+
 		if(n1 <= n2) {
 			return n1;
 		}
-		
+
 		return n2;
 	}
-	
+
 	public static Integer min(Integer n1,Integer n2, int minValue) {
 		int min = n2;
 		if(n1 <= n2) {
@@ -81,19 +81,19 @@ public class NumUtil {
 		if(min < minValue) {
 			min = minValue;
 		}
-		
+
 		return min;
 	}
-	
+
 	public static Integer add(Integer n1,Integer n2) {
 		if(n1 <= Integer.MAX_VALUE/2 && n2 <= Integer.MAX_VALUE/2) {
 			return n1+n2;
 		}
-		
+
 		return Integer.MAX_VALUE;
-		
+
 	}
-	
+
 	public static String num2Str(List<Integer> valueList) {
 		if(valueList == null || valueList.size() == 0) {
 			return null;
@@ -103,7 +103,7 @@ public class NumUtil {
 			sValue.append(value).append(",");
 		}
 		sValue.deleteCharAt(sValue.length()-1);
-		
+
 		return sValue.toString();
 	}
 
@@ -150,41 +150,64 @@ public class NumUtil {
 		}catch(Exception e) {
 			return defaultInt;
 		}
-		
+
 		return min;
 	}
-	
+
 	public static BigDecimal min(BigDecimal... b){
 		if(b == null || b.length == 0){
 			return null;
 		}
-		
+
 		BigDecimal min = b[0];
 		for(int i=1;i<b.length;i++){
 			if(compareTo(min,b[i]) > 0){
 				min = b[i];
 			}
 		}
-		
+
 		return min;
 	}
-	
+
 	public static BigDecimal max(BigDecimal... b){
 		if(b == null || b.length == 0){
 			return null;
 		}
-		
+
 		BigDecimal max = b[0];
 		for(int i=1;i<b.length;i++){
 			if(compareTo(max,b[i]) < 0){
 				max = b[i];
 			}
 		}
-		
+
 		return max;
 	}
+
+	public static double max(double[] ds){
+		double max = Double.MIN_VALUE;
+		for(double d:ds){
+			if(max < d){
+				max = d;
+			}
+		}
+		return max;
+	}
+
+	public static int maxIndex(double[] ds){
+		double max = Double.MIN_VALUE;
+		int maxIndex = 0;
+		for(int i=0;i<ds.length;i++){
+			if(max < ds[i]){
+				max = ds[i];
+				maxIndex = i;
+			}
+		}
+		return maxIndex;
+	}
+
 	/**
-	 * added by eagle 20130304 V1.0.8 CQDF00031201 
+	 * added by eagle 20130304 V1.0.8 CQDF00031201
 	 * 比较时如果误差在指定范围内(Minvalue), 也认为是相同的.
 	 * @param b1
 	 * @param b2
@@ -199,16 +222,18 @@ public class NumUtil {
 		if(diff.compareTo(tolerance) <= 0){
 			return 0;
 		}
-		
+
 		return b1.compareTo(b2);
-		
+
 	}
-	
+
+
+
 	public static int compareTo(BigDecimal b1, BigDecimal b2){
 		return compareTo(b1,b2,MINVALUE);
-		
+
 	}
-	
+
 	/**
 	 * 乘法,默认二位小数点
 	 * @param m1 乘数1
@@ -218,11 +243,11 @@ public class NumUtil {
 	public static BigDecimal multiply(BigDecimal m1,BigDecimal m2){
 		return multiply(m1,m2,SCALE);
 	}
-	
+
 	public static BigDecimal setScale(BigDecimal bg,int scale,int round){
 		return bg.setScale(scale, round);
 	}
-	
+
 	public static BigDecimal setScale(BigDecimal bg,int scale){
 		return setScale(bg,scale,BigDecimal.ROUND_HALF_DOWN);
 	}
@@ -246,11 +271,11 @@ public class NumUtil {
 	public static BigDecimal multiply(BigDecimal m1,BigDecimal m2,int scale){
 		return m1.multiply(m2).setScale(scale,BigDecimal.ROUND_HALF_DOWN);
 	}
-	
+
 	public static BigDecimal multiply(BigDecimal m1,BigDecimal m2,int scale,int round){
 		return m1.multiply(m2).setScale(scale,round);
 	}
-	
+
 	/**
 	 * 除法,默认二位小数点
 	 * @param m1 除数
@@ -260,7 +285,7 @@ public class NumUtil {
 	public static BigDecimal divide(BigDecimal m1,BigDecimal m2){
 		return divide(m1,m2,SCALE);
 	}
-	
+
 	/**
 	 * 除法,指定小数点
 	 * @param m1 除数
@@ -271,11 +296,11 @@ public class NumUtil {
 	public static BigDecimal divide(BigDecimal m1,BigDecimal m2,int scale){
 		return m1.divide(m2,scale,BigDecimal.ROUND_HALF_DOWN);
 	}
-	
+
 	public static BigDecimal divide(BigDecimal m1,BigDecimal m2,int scale,int round){
 		return m1.divide(m2,scale,round);
 	}
-	
+
 	/**
 	 * 减法,默认二位小数点
 	 * @param m1 被减数
@@ -285,7 +310,7 @@ public class NumUtil {
 	public static BigDecimal subtract(BigDecimal m1,BigDecimal m2){
 		return subtract(m1,m2,SCALE);
 	}
-	
+
 	/**
 	 * 减法,指定小数点
 	 * @param m1 被减数
@@ -296,7 +321,7 @@ public class NumUtil {
 	public static BigDecimal subtract(BigDecimal m1,BigDecimal m2,int scale){
 		return m1.subtract(m2).setScale(scale,BigDecimal.ROUND_HALF_DOWN);
 	}
-	
+
 	/**
 	 * 加法,默认二位小数点
 	 * @param m1 加数1
@@ -316,26 +341,26 @@ public class NumUtil {
 	public static BigDecimal add(BigDecimal m1,BigDecimal m2,int scale){
 		return m1.add(m2).setScale(scale,BigDecimal.ROUND_HALF_DOWN);
 	}
-	
+
 	public static BigDecimal divide(int i1, int i2) {
 		return divide(new BigDecimal(i1),new BigDecimal(i2),2);
-		
+
 	}
-	
+
 	public static int multiply(BigDecimal m1, int i2) {
 		BigDecimal result = m1.multiply(new BigDecimal(i2)).setScale(2,BigDecimal.ROUND_HALF_DOWN);
 		return result.intValue();
 	}
-	
+
 	public static boolean isEmptyNumber(Long obj){
 		if(obj == null){
 			return true;
 		}
-		
+
 		if(0 == obj.intValue()){
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -445,5 +470,16 @@ public class NumUtil {
 			}
 		}
 		return count;
+	}
+
+	public static boolean isEqual(double d1,double d2, double delta){
+		if(Math.abs(d1-d2) <= Math.abs(delta)){
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isEqual(double d1, double d2){
+		return isEqual(d1,d2,MINVALUE.doubleValue());
 	}
 }

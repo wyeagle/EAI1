@@ -2,6 +2,7 @@ package com.wang.study.ai.perceptron;
 
 import com.wang.study.ai.common.TrainStatus;
 import com.wang.study.ai.data.TrainingSet;
+import com.wang.study.ai.data.ptype.DefaultPreType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class PerceptronTest extends PBaseTest {
         while(count < max) {
             count++;
             //线性方程w1x1+w2x2+...+wnxn+b=0, b=w0*x0(x0==1), 因此会在每个训练数据上增加w0x0(用addBias)
-            TrainingSet trainingSet = super.prepareTrainingSet("Perceptron/pts01_1.txt");
+            TrainingSet trainingSet = super.prepareTrainingSet(new DefaultPreType(),"Perceptron/pts01_1.txt");
 
             Perceptron ptron = new Perceptron(trainingSet.get(0).x.length,0.1,0,200);
 

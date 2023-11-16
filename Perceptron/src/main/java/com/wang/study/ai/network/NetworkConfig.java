@@ -13,6 +13,10 @@ public class NetworkConfig {
     private int epoch;
     private int batchSize;
 
+
+
+    private long maxAdjustCount;
+
     private List<String> activationFuncs;
 
     private String costFunc;
@@ -92,6 +96,12 @@ public class NetworkConfig {
         this.weights = weights;
     }
 
+    public long getMaxAdjustCount() {
+        return maxAdjustCount;
+    }
 
+    public void setMaxAdjustCount(long maxAdjustCount) {
+        this.maxAdjustCount = maxAdjustCount;
+    }
 
 }

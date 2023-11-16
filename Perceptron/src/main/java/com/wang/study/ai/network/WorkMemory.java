@@ -1,16 +1,26 @@
 package com.wang.study.ai.network;
 
+import com.wang.study.ai.util.NumUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorkMemory {
-    private List<Double> _oldDiffs = new ArrayList<Double>();
-    double _lastDiff;
+    double _lastDiff = 0;
     long _adjustCount;
+    double _avgDiff = 0;
+    double _delta;
+
+    long _maxAdjustCount = 10000l;
+    private static int NUM = 100;
 
     boolean canAbort(){
-        if(_oldDiffs.size() >= 1000 || _adjustCount >= 200000){
-            System.out.println("oldDiff size = "+_oldDiffs.size()+": adjustCount = "+_adjustCount);
+        if(_adjustCount >= _maxAdjustCount){
+            System.out.println("adjustCount = "+_adjustCount);
+            return true;
+        }
+        if(_keep >= 100){
+            System.out.println("_keep = "+_keep);
             return true;
         }
         return false;
@@ -20,24 +30,20 @@ public class WorkMemory {
         _adjustCount++;
     }
 
-    void addDiff(double diff){
+    int _keep = 0;
+    void addDiff(double diff,int count){
+
+        if(NumUtil.isEqual(_lastDiff,diff,0.00000001)) {
+            //System.out.println(_lastDiff+":"+diff+":"+_delta);
+            //_keep ++;
+        }else{
+            _keep = 0;
+        }
         _lastDiff = diff;
-        double last = 0d;
-        if(_oldDiffs.size()>0){
-            last = _oldDiffs.get(_oldDiffs.size()-1);
-        }
-        if(diff < last){
-            _oldDiffs.remove(last);
-        }
-        _oldDiffs.add(diff);
     }
 
-    void clearDiff(){
-        _oldDiffs.clear();
-    }
 
     void clear(){
-        clearDiff();
         _adjustCount = 0;
     }
 }

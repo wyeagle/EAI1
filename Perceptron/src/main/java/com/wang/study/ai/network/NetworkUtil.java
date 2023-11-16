@@ -19,6 +19,7 @@ public class NetworkUtil {
         config.setDelta(network._delta);
         config.setEpoch(network._epoch);
         config.setRate(network._rate);
+        config.setMaxAdjustCount(network._memory._maxAdjustCount);
         int[] neuronNumOfLayers = new int[network.getLayerList().size()];
         List<String> afList = new ArrayList<>();
         List<double[]> wList = new ArrayList<>();
@@ -43,7 +44,7 @@ public class NetworkUtil {
 
     private static Network config2Network(NetworkConfig config) throws Exception{
         //int xNumber,int[] neuronNumOfLayers,double delta,double rate,int epoch, int batchSize
-        Network network = Network.build(config.getXnumber(),config.getNeuronNumOfLayers(),config.getDelta(),config.getRate(),config.getEpoch(),config.getBatchSize());
+        Network network = Network.build(config.getXnumber(),config.getNeuronNumOfLayers(),config.getDelta(),config.getRate(),config.getEpoch(),config.getBatchSize(),config.getMaxAdjustCount());
         network.configCostFunc((CostFunction)Class.forName(config.getCostFunc()).newInstance());
 
         List<Layer> layerList = network.getLayerList();

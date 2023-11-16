@@ -4,15 +4,23 @@ import com.wang.study.ai.data.ptype.PreType;
 import com.wang.study.ai.util.NumUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TrainingSet {
-    private List<TrainingData> _trainingDatas;
+    private List<TrainingData> _trainingDatas = new ArrayList<>();
 
     private int _current = 0;
+    private PreType _preType;
 
-    public TrainingSet(List<TrainingData> datas){
-        _trainingDatas = datas;
+    public TrainingSet(PreType preType){
+        _preType = preType;
+    }
+
+    public void addData(TrainingData data){
+        data.expectedValues = _preType.adaptExpectedValue(data.expectedValues);
+        data.x = _preType.adaptParams(data.x);
+        _trainingDatas.add(data);
     }
 
     public int size(){
@@ -35,6 +43,11 @@ public class TrainingSet {
 
     public void reset(){
         _current = 0;
+        Collections.shuffle(_trainingDatas);
+    }
+
+    private void random(){
+
     }
 
     public List<TrainingData> nextBatch(int batch){
@@ -51,15 +64,6 @@ public class TrainingSet {
         _current = end;
 
         return datas;
-    }
-
-
-    /**
-     * 对数据进行预处理
-     */
-    public void preprocessing(PreType preType){
-        preType.load(_trainingDatas);
-        preType.pre();
     }
 
 }

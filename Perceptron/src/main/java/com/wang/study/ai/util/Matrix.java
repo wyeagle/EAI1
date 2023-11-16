@@ -1,5 +1,7 @@
 package com.wang.study.ai.util;
 
+import com.wang.study.ai.common.EAIException;
+
 import java.text.DecimalFormat;
 
 /**
@@ -34,7 +36,7 @@ public class Matrix {
      */
     public void fillRowData(int rowIndex, double[] rowDatas){
         if(rowDatas.length != col){
-            return;
+            throw new EAIException("rowDatas.length["+rowDatas.length+"] != col["+col+"]");
         }
         for(int i=0;i<rowDatas.length;i++){
             value[rowIndex][i] = rowDatas[i];
@@ -43,7 +45,7 @@ public class Matrix {
 
     public void fillColData(int colIndex, double[] colDatas){
         if(colDatas.length != row){
-            return;
+            throw new EAIException("colDatas.length["+colDatas.length+"] != row["+row+"]");
         }
         for(int i=0;i<colDatas.length;i++){
             value[i][colIndex] = colDatas[i];

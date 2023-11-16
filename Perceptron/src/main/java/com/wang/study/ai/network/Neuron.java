@@ -44,6 +44,8 @@ public class Neuron {
 
     private double _rate;
 
+    private Layer _layer;
+
     void setActivationFunction(ActivationFunction af){
         _af = af;
     }
@@ -54,8 +56,10 @@ public class Neuron {
         this._expectedValue = value;
     }
 
-    public static Neuron build(int xNumber,List<Neuron> frontList){
+    public static Neuron build(Layer layer,int xNumber,List<Neuron> frontList){
+
         Neuron n = new Neuron();
+        n._layer = layer;
         n._frontList = frontList;
         //n._x = new double[xNumber+1];
         //n._x[0] = 1d;
@@ -125,7 +129,7 @@ public class Neuron {
         //cost函数求导
         double dc = 0d;
         //激活函数求导
-        double dy1 = _af.df(_y1);
+        double dy1 = _af.df(_y1,_layer.getY1());
 
         if(_nextList == null){
             //输出层
