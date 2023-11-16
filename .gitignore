@@ -4,4 +4,7 @@
 *.class
 *.bak
 ~$*
-
+*ubyte
+*.nw
+*.dg
+*.xlsx
