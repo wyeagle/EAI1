@@ -2,8 +2,6 @@ package com.wang.study.ai.network;
 
 import com.wang.study.ai.util.NumUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class WorkMemory {
     double _lastDiff = 0;
@@ -16,7 +14,6 @@ public class WorkMemory {
 
     boolean canAbort(){
         if(_adjustCount >= _maxAdjustCount){
-            System.out.println("adjustCount = "+_adjustCount);
             return true;
         }
         if(_keep >= 100){

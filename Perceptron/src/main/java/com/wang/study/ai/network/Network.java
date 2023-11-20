@@ -1,15 +1,13 @@
 package com.wang.study.ai.network;
 
 import com.wang.study.ai.common.NetworkUnit;
-import com.wang.study.ai.function.activation.ActivationFunction;
-import com.wang.study.ai.function.cost.CostFunction;
 import com.wang.study.ai.data.TrainingData;
 import com.wang.study.ai.data.TrainingSet;
+import com.wang.study.ai.function.activation.ActivationFunction;
+import com.wang.study.ai.function.cost.CostFunction;
 import com.wang.study.ai.network.result.EpochResult;
 import com.wang.study.ai.network.result.NetworkResult;
 import com.wang.study.ai.util.FileUtil;
-import com.wang.study.ai.util.NumUtil;
-import com.wang.study.ai.util.PubUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -9,13 +9,13 @@ import com.wang.study.ai.util.NumUtil;
 public class LinearFunction extends BaseFunction {
 
 
-    public double f(Object... params) {
+    protected double func(Object... params) {
         double[] w = (double[])params[0];
         double[] x = (double[])params[1];
         return NumUtil.matrixMultiply(w,x);
     }
 
-    public double df(Object... params) {
+    protected double dfunc(Object... params) {
         double[] w = (double[])params[0];
         Integer index = (Integer)params[1];
         return w[index];

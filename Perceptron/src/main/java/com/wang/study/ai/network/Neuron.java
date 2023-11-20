@@ -88,7 +88,13 @@ public class Neuron {
      * 初始化权重
      */
     void initWeight(){
-        NumUtil.random(_w,-1,1);
+        double r = _w.length;
+
+        //if(_nextList != null){
+        //    r += _nextList.size();
+        //}
+        r = Math.sqrt(6/r);
+        NumUtil.random(_w,-r,r);
     }
 
     void assignWeight(double d){

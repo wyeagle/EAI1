@@ -183,7 +183,14 @@ public class PubUtil {
 		}
 		String s = "";
 		for(Object o:os){
-			s += String.valueOf(o)+",";
+
+			String str = "";
+			if(o instanceof double[]){
+				str = "["+print((double[])o)+"]";
+			}else{
+				str = String.valueOf(o);
+			}
+			s += str+",";
 		}
 		s = s.substring(0,s.length()-1);
 		return s;
@@ -224,5 +231,12 @@ public class PubUtil {
 		}
 		b = b.setScale(6,BigDecimal.ROUND_HALF_DOWN);
 		return b.toString();
+	}
+
+	public static void main(String[] args){
+		Object[] objs = new Object[2];
+		objs[0] =1d;
+		objs[1] =new double[] {1,2,3};
+		System.out.println(PubUtil.print(objs));
 	}
 }

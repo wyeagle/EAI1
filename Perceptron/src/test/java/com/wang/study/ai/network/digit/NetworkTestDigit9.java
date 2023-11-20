@@ -3,6 +3,7 @@ package com.wang.study.ai.network.digit;
 import com.wang.study.ai.common.CommonTest;
 import com.wang.study.ai.common.TestParam;
 import com.wang.study.ai.data.ptype.DigitPreType;
+import com.wang.study.ai.function.activation.LeakyReluFunction;
 import com.wang.study.ai.function.activation.ReluFunction;
 import com.wang.study.ai.function.activation.SoftmaxFunction;
 import com.wang.study.ai.function.cost.BCECostFunction;
@@ -17,16 +18,19 @@ import java.util.ArrayList;
 public class NetworkTestDigit9 extends CommonTest {
 
     @Test
+    /**
+     * 8*8*10反而不如8*10
+     */
     public void testTrain_01() throws Exception{
         CostFunction cf = new BCECostFunction();
 
         TestParam tp = new TestParam();
 
-        tp.delta = 0.001d;
+        tp.delta = 0.0001d;
         tp.rate = 0.05d;
         tp.batchSize = 500;
         tp.epoch = 1;
-        tp.maxAdjustCount = 500;
+        tp.maxAdjustCount = 300;
 
         tp.trainingFile = "Network/digit/nts_digit01.dg";
         tp.testFile = "Network/digit/nts_digit09.dg";
@@ -41,7 +45,41 @@ public class NetworkTestDigit9 extends CommonTest {
 
         for(int i=0;i<tp.neuronNumOfLayers.length;i++){
             if(i != tp.neuronNumOfLayers.length-1){
-                tp.afs.add(new ReluFunction());
+                tp.afs.add(new LeakyReluFunction());
+            }else{
+                tp.afs.add(new SoftmaxFunction());
+            }
+        }
+
+        testTrain(tp);
+    }
+
+    @Test
+    public void testTrain_02() throws Exception{
+        CostFunction cf = new BCECostFunction();
+
+        TestParam tp = new TestParam();
+
+        tp.delta = 0.0001d;
+        tp.rate = 0.05d;
+        tp.batchSize = 500;
+        tp.epoch = 1;
+        tp.maxAdjustCount = 100000;
+
+        tp.trainingFile = "Network/digit/nts_digit01.dg";
+        tp.testFile = "Network/digit/nts_digit09.dg";
+        tp.compareDelta = 0.1d;
+        tp.logType = 1;
+
+        tp.xNumber = 28*28;
+        tp.cf = cf;
+        tp.preType = new DigitPreType();
+        tp.neuronNumOfLayers = new int[]{16,16,10};
+        tp.afs = new ArrayList<>(tp.neuronNumOfLayers.length);
+
+        for(int i=0;i<tp.neuronNumOfLayers.length;i++){
+            if(i != tp.neuronNumOfLayers.length-1){
+                tp.afs.add(new LeakyReluFunction());
             }else{
                 tp.afs.add(new SoftmaxFunction());
             }
@@ -55,8 +93,7 @@ public class NetworkTestDigit9 extends CommonTest {
     @Test
     public void continueTrainning() throws Exception{
 
-
-        Network network = NetworkUtil.json2Network(FileUtil.file2Str("1700107723818_1800.nw"));
+        Network network = NetworkUtil.json2Network(FileUtil.file2Str("1700135182469_12200.nw"));
 
         TestParam tp = new TestParam();
 
@@ -71,6 +108,45 @@ public class NetworkTestDigit9 extends CommonTest {
 
     }
 
+    @Test
+    public void continueTrainning2() throws Exception{
+        //93.93%
+        String file = "1700298820943_87.nw";
+
+        Network network = NetworkUtil.json2Network(FileUtil.file2Str(file));
+
+        TestParam tp = new TestParam();
+
+        tp.preType = new DigitPreType();
+        tp.trainingFile = "Network/digit/nts_digit01.dg";
+        tp.testFile = "Network/digit/nts_digit09.dg";
+        tp.compareDelta = 0.1d;
+        tp.logType = 1;
+
+
+        testTrain(network,tp);
+
+    }
+
+    @Test
+    public void continueTrainning3() throws Exception{
+        //93.93%
+        String file = "1700306026403_120.nw";
+
+        Network network = NetworkUtil.json2Network(FileUtil.file2Str(file));
+
+        TestParam tp = new TestParam();
+
+        tp.preType = new DigitPreType();
+        tp.trainingFile = "Network/digit/nts_digit01.dg";
+        tp.testFile = "Network/digit/nts_digit09.dg";
+        tp.compareDelta = 0.1d;
+        tp.logType = 1;
+
+
+        testTrain(network,tp);
+
+    }
 
     @Test
     /**
@@ -118,20 +194,47 @@ public class NetworkTestDigit9 extends CommonTest {
      1700107723818_1800.nw
      total count/errorCount/successCount/success rate = 10000/713/9287/92.87%
      total error = 1065.938639: avgError = 0.106594
+     1700124931534_2400.nw
+     total count/errorCount/successCount/success rate = 10000/696/9304/93.04%
+     total error = 1023.460361: avgError = 0.102346
+     1700135182469_12200.nw
+     total count/errorCount/successCount/success rate = 10000/620/9380/93.80%
+     total error = 911.570452: avgError = 0.091157
      */
     public void testTrained() throws Exception{
 
-        String file = "1700107723818_1800.nw";
-        //String file = "16400_1700017667553.nw";
-
-        Network network = NetworkUtil.json2Network(FileUtil.file2Str(file));
+        String[] prefixs = new String[]{"1700319394865_","1700320410563_","1700320673649_"};
 
         String testFile = "Network/digit/nts_digit09.dg";
 
+        for(int i=62;i<=63;i=i+1) {
+            for(int j=0;j<prefixs.length;j++) {
+                String file = prefixs[j] + i + ".nw";
+                System.out.println(file + " begin");
+                Network network = NetworkUtil.json2Network(FileUtil.file2Str(file));
+                try {
+                    compareMultiType(network, new DigitPreType(), testFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testTrained2() throws Exception{
+
+        String file = "1700319394865_15.nw";
+
+        String testFile = "Network/digit/nts_digit09.dg";
+
+
+        Network network = NetworkUtil.json2Network(FileUtil.file2Str(file));
         try {
-            compareMultiType(network, new DigitPreType(),testFile);
+            compareMultiType(network, new DigitPreType(), testFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }

@@ -8,7 +8,7 @@ import com.wang.study.ai.util.NumUtil;
  */
 public class SoftmaxFunction extends ActivationFunction {
 
-    public double f(Object... params) {
+    protected double func(Object... params) {
         double[] os = NumUtil.clone(allOutputs(params));
         double a = actualValue(params);
 
@@ -34,7 +34,7 @@ public class SoftmaxFunction extends ActivationFunction {
         return f;
     }
 
-    public double df(Object... params){
+    protected double dfunc(Object... params){
         double f = f(params);
 
         double df = f*(1-f);
@@ -43,7 +43,7 @@ public class SoftmaxFunction extends ActivationFunction {
     }
 
     public static void main(String[] args){
-        double[] os = new double[]{1,2,3,4000};
+        double[] os = new double[]{-985.464983,-1064.710174,-852.535859,-1127.275453,-869.357282,-1270.865801,-814.614576,-1371.291717,-1157.629658,-1120.690478};
 
         for(double a:os) {
             SoftmaxFunction f = new SoftmaxFunction();

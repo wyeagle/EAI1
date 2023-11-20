@@ -1,7 +1,5 @@
 package com.wang.study.ai.network;
 
-import com.wang.study.ai.function.cost.CostFunction;
-
 import java.util.List;
 
 public class NetworkConfig {

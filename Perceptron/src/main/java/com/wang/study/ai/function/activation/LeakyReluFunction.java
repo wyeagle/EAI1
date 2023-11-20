@@ -4,14 +4,20 @@ package com.wang.study.ai.function.activation;
 /**
  *
  */
-public class ReluFunction extends ActivationFunction {
+public class LeakyReluFunction extends ActivationFunction {
+    private double _a = 0.01;
+    public LeakyReluFunction(){
+    }
+    public LeakyReluFunction(double a){
+        _a = a;
+    }
 
     protected double func(Object... params) {
         Double x = super.actualValue(params);
-        if(x > 0){
-            return x;
+        if(x <= 0) {
+            x = _a * x;
         }
-        return 0;
+        return x;
     }
 
     protected double dfunc(Object... params){
@@ -19,7 +25,7 @@ public class ReluFunction extends ActivationFunction {
         if(x > 0){
             return 1;
         }
-        return 0;
+        return _a;
     }
 
 }

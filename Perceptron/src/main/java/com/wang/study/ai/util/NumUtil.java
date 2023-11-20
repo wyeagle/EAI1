@@ -185,7 +185,8 @@ public class NumUtil {
 	}
 
 	public static double max(double[] ds){
-		double max = Double.MIN_VALUE;
+		double max = -100000000000000000000000000000d;
+		//double max = Double.MIN_VALUE;
 		for(double d:ds){
 			if(max < d){
 				max = d;

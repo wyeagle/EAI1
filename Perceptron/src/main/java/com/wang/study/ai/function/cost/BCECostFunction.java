@@ -11,7 +11,7 @@ import com.wang.study.ai.util.NumUtil;
 public class BCECostFunction extends CostFunction {
     private static final double MINVALUE = 0.00000001d;
 
-    public double f(Object... params) {
+    protected double func(Object... params) {
         double p = acutalValue(params);
         double y = expectedValue(params);
 
@@ -23,13 +23,11 @@ public class BCECostFunction extends CostFunction {
         }
 
         double cost = -y*Math.log(p)-(1-y)*Math.log(1-p);
-        if((new Double(cost)).isNaN() || (new Double(cost)).isInfinite()){
-            throw new EAIException("cost exception :"+p+":"+y+":cost = "+cost);
-        }
+
         return cost;
     }
 
-    public double df(Object... params) {
+    protected double dfunc(Object... params) {
         double p = acutalValue(params);
         double y = expectedValue(params);
 
@@ -42,13 +40,10 @@ public class BCECostFunction extends CostFunction {
 
         double df = (p-y)/(p*(1-p));
 
-        if((new Double(df)).isNaN() || (new Double(df)).isInfinite()){
-            throw new EAIException("cost exception :"+p+":"+y+":cost df = "+df);
-        }
         return df;
     }
 
-    public double fByArray(double[] actuals, double[] expecteds){
+    protected double funcByArray(double[] actuals, double[] expecteds){
         double diff = 0d;
         for(int i=0;i<actuals.length;i++){
             diff += f(actuals[i],expecteds[i]);

@@ -14,9 +14,9 @@ import com.wang.study.ai.util.NumUtil;
 import com.wang.study.ai.util.PubUtil;
 import org.junit.Test;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,11 +90,11 @@ public class NetworkTestDigit extends CommonTest {
 
         int count = 0;
         BufferedWriter bw = newFile(fileName+outputFile);
+
         while(true){
 
             byte[] ts = tFile.readNext(28*28);
             byte[] ls = lFile.readNext(1);
-
             if(ts == null && ls == null){
                 break;
             }
@@ -103,6 +103,7 @@ public class NetworkTestDigit extends CommonTest {
             if(count > 200){
                 break;
             }
+            break;
         }
         bw.close();
 

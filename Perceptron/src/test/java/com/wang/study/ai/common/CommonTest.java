@@ -4,7 +4,6 @@ import com.wang.study.ai.data.ptype.DefaultPreType;
 import com.wang.study.ai.data.ptype.PreType;
 import com.wang.study.ai.function.activation.ActivationFunction;
 import com.wang.study.ai.function.activation.SigmoidFunction;
-import com.wang.study.ai.function.cost.CostFunction;
 import com.wang.study.ai.network.Network;
 import com.wang.study.ai.network.NetworkUtil;
 import com.wang.study.ai.network.result.EpochResult;
@@ -12,12 +11,10 @@ import com.wang.study.ai.network.result.NetworkResult;
 import com.wang.study.ai.perceptron.Perceptron;
 import com.wang.study.ai.data.TrainingData;
 import com.wang.study.ai.data.TrainingSet;
-import com.wang.study.ai.util.FileUtil;
 import com.wang.study.ai.util.NumUtil;
 import com.wang.study.ai.util.PubUtil;
 import com.wang.study.ai.util.TestUtil;
 import org.junit.Assert;
-import sun.nio.ch.Net;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -90,8 +87,8 @@ public class CommonTest {
                     //System.out.println("test data = " + data + " : actual value = " + String.valueOf(y[j]) + " : error = " + (y[j] - data.expectedValues[j]));
                 }catch(Error e){
                     errorCount++;
-                    if(errorCount % 100 == 0)
-                        System.err.println("test data = " + data + " : actual value = " + String.valueOf(y[j]) + " : error = " + (y[j] - data.expectedValues[j]));
+                    //if(errorCount % 100 == 0)
+                        //System.err.println("test data = " + data + " : actual value = " + String.valueOf(y[j]) + " : error = " + (y[j] - data.expectedValues[j]));
                 }
 
 
@@ -124,7 +121,7 @@ public class CommonTest {
                 avgError += Math.abs(1-actualPercent);
             }else{
                 errorCount++;
-                //System.err.println("actualValue = "+actualValue+": percent = "+y[expectedValue]+": expectedValue = "+expectedValue);
+                //System.err.println("actualValue = "+actualValue+":"+y[actualValue]+": percent = "+y[expectedValue]+": expectedValue = "+expectedValue);
 
                 avgError += Math.abs(1-y[expectedValue]);
             }
