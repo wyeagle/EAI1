@@ -1,9 +1,7 @@
 package com.wang.study.ai.network.result;
 
-import com.wang.study.ai.network.Network;
-import com.wang.study.ai.network.NetworkUtil;
-import com.wang.study.ai.util.NumUtil;
-import sun.nio.ch.Net;
+import com.wang.study.ai.network.fc.Network;
+import com.wang.study.ai.network.fc.NetworkUtil;
 
 public class EpochResult {
     public int _epochNo;

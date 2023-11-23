@@ -4,15 +4,14 @@ import com.wang.study.ai.util.NumUtil;
 
 
 public class WorkMemory {
-    double _lastDiff = 0;
-    long _adjustCount;
-    double _avgDiff = 0;
-    double _delta;
+    public double _lastDiff = 0;
+    public long _adjustCount;
+    public double _delta;
 
-    long _maxAdjustCount = 10000l;
+    public long _maxAdjustCount = 10000l;
     private static int NUM = 100;
 
-    boolean canAbort(){
+    public boolean canAbort(){
         if(_adjustCount >= _maxAdjustCount){
             return true;
         }
@@ -23,12 +22,12 @@ public class WorkMemory {
         return false;
     }
 
-    void addAdjustCount(){
+    public void addAdjustCount(){
         _adjustCount++;
     }
 
     int _keep = 0;
-    void addDiff(double diff,int count){
+    public void addDiff(double diff,int count){
 
         if(NumUtil.isEqual(_lastDiff,diff,0.00000001)) {
             //System.out.println(_lastDiff+":"+diff+":"+_delta);
@@ -40,7 +39,7 @@ public class WorkMemory {
     }
 
 
-    void clear(){
+    public void clear(){
         _adjustCount = 0;
     }
 }

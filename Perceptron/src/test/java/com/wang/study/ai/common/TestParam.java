@@ -32,4 +32,16 @@ public class TestParam {
         }
         return str+ PubUtil.print(neuronNumOfLayers);
     }
+
+    public static void main(String[] args){
+        double[][][] d = new double[2][2][2];
+        d[0][0][0] = 1;
+        d[1][0][0] = 2;
+        print(d[0]);
+        print(d[1]);
+    }
+
+    static void print(double[][] d){
+        System.out.println(d[0][0]);
+    }
 }

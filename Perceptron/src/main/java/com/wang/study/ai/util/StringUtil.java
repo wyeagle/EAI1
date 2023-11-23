@@ -195,4 +195,25 @@ public class StringUtil {
 		
 		return str1.equals(str2);
 	}
+
+	public static String substring(String str, int size){
+		if(str.length() < size){
+			return str;
+		}
+		return str.substring(0,size);
+	}
+
+
+	public static String int2Str(int... is){
+		String s = "";
+		for(int i=0;i<is.length;i++){
+			if(i!= is.length-1){
+				s += i+":";
+			}else{
+				s += i;
+			}
+		}
+		return s;
+
+	}
 }

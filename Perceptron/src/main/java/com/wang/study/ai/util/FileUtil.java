@@ -1,5 +1,7 @@
 package com.wang.study.ai.util;
 
+import com.wang.study.ai.common.EAIException;
+
 import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -43,7 +45,7 @@ public class FileUtil {
         return str.toString();
     }
 
-    public static void str2File(String file,String str) throws Exception{
+    public static void str2File(String file,String str) throws Exception {
         BufferedWriter bw = null;
         OutputStreamWriter osw;
         osw = new OutputStreamWriter(new FileOutputStream(file),"utf-8");

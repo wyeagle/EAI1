@@ -1,7 +1,5 @@
 package com.wang.study.ai.network.result;
 
-import com.sun.scenario.effect.impl.sw.java.JSWPhongLighting_POINTPeer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

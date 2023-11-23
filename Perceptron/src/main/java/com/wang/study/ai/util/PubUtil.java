@@ -170,12 +170,7 @@ public class PubUtil {
 	}
 
 
-	public static String substring(String str, int size){
-		if(str.length() < size){
-			return str;
-		}
-		return str.substring(0,size);
-	}
+
 
 	public static String print(Object[] os){
 		if(os == null || os.length == 0){

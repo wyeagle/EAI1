@@ -2,9 +2,20 @@ package com.wang.study.ai.function.cost;
 
 import com.wang.study.ai.common.EAIException;
 import com.wang.study.ai.function.BaseFunction;
+import com.wang.study.ai.function.activation.*;
 import com.wang.study.ai.util.PubUtil;
 
 public abstract class CostFunction extends BaseFunction {
+
+    public static CostFunction newInstance(CostEnum ae){
+        CostFunction cf = null;
+        switch(ae){
+            case BCE:cf = new BCECostFunction();
+            case MSE:cf = new MSECostFunction();
+        }
+        return cf;
+    }
+
 
     protected Double acutalValue(Object... params){
         return (Double)params[0];

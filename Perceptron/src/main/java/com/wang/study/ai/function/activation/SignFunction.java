@@ -1,5 +1,8 @@
 package com.wang.study.ai.function.activation;
 
+/**
+ * 仅供感知器使用的激活函数，其他网络不能使用，因为其导数为0，无法做反向传播
+ */
 public class SignFunction extends ActivationFunction {
 
     protected double func(Object... params) {

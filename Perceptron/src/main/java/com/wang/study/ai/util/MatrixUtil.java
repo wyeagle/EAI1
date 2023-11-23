@@ -2,6 +2,7 @@ package com.wang.study.ai.util;
 
 
 import com.wang.study.ai.function.BaseFunction;
+import com.wang.study.ai.network.Matrix;
 
 
 public class MatrixUtil {
@@ -18,7 +19,7 @@ public class MatrixUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	private static Matrix operator(Matrix m1,Matrix m2, int flag) throws Exception{
+	private static Matrix operator(Matrix m1, Matrix m2, int flag) throws Exception{
 		if (m1.row != m2.row || m1.col != m2.col) {
 			throw new Exception(
 					"The two matrices must be identical");
@@ -38,7 +39,7 @@ public class MatrixUtil {
 				}
 			}
 		}
-		Matrix resultMatrix = new Matrix(m1.row, m1.col, result);
+		Matrix resultMatrix = Matrix.build(result);
 		return resultMatrix;
 	}
 
@@ -65,7 +66,7 @@ public class MatrixUtil {
 				result[i][j] = d * m1.value[i][j];
 			}
 		}
-		Matrix multiplication2 = new Matrix(m1.row, m1.col, result);
+		Matrix multiplication2 = Matrix.build(result);
 		return multiplication2;
 	}
 
@@ -94,7 +95,7 @@ public class MatrixUtil {
 					c = 0;
 				}
 			}
-			Matrix multiplication1 = new Matrix(m1.row, m2.col, result);
+			Matrix multiplication1 = Matrix.build(result);
 			return multiplication1;
 		}
 	}
@@ -106,7 +107,7 @@ public class MatrixUtil {
 				result[j][i] = m1.value[i][j];
 			}
 		}
-		Matrix transposed = new Matrix(m1.col, m1.row, result);
+		Matrix transposed = Matrix.build(result);
 		return transposed;
 	}
 

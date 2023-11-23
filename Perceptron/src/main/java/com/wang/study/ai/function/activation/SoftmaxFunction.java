@@ -9,9 +9,10 @@ import com.wang.study.ai.util.NumUtil;
 public class SoftmaxFunction extends ActivationFunction {
 
     protected double func(Object... params) {
-        double[] os = NumUtil.clone(allOutputs(params));
+        double[] os = allOutputs(params);
         double a = actualValue(params);
 
+        //由于是计算e的次方，如果参数值过大，会造成NAN,比如e^700就会溢出，因此先计算参数的最大值，然后每个参数减去这个最大值，计算结果和原值不变
         double max = NumUtil.max(os);
         for(int i=0;i<os.length;i++){
             os[i] = os[i]-max;
