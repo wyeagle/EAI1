@@ -38,7 +38,7 @@ public class FCLayer extends Layer {
 
     @Override
     public Tensor run() {
-        _input = _frontLayer._output.flat2Height();
+        _input = _frontLayer._output.flat2D();
         //[_size*n]*[n*1]=[_size*1]
         _output = _weight.product(_input);
         _output.add(_bias);

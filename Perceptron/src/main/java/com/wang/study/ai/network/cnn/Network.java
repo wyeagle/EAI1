@@ -107,12 +107,12 @@ public class Network {
 
             Tensor resultT = run(data.x);
 
-            double[] actualOutputs = resultT.flat();
+            double[] actualOutputs = resultT.flat1D();
 
             //仅对输出层设置预期值
             _outputLayer.setExpectedValue(data.expectedValues);
 
-            double currDiff = _outputLayer._cf.fByArray(actualOutputs,data.expectedValues.flat());
+            double currDiff = _outputLayer._cf.fByArray(actualOutputs,data.expectedValues.flat1D());
 
             avgDiff += currDiff;
             if(currDiff < _trainingParam._delta){

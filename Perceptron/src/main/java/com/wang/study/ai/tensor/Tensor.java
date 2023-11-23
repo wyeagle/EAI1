@@ -51,7 +51,13 @@ public abstract class Tensor {
      * 按高度打平，即变成N*1矩阵
      * @return
      */
-    public Tensor flat2Height(){return null;}
+    public Tensor flat2D(){return null;}
+
+    /**
+     * 按一维打平，即数组
+     * @return
+     */
+    public double[] flat1D(){return null;}
 
     public int width(){return 0;}
 
