@@ -27,10 +27,10 @@ public class Neuron {
 
     public double run(ActivationFunction af){
         //0维张量
-        Tensor output = _input.dot(_weight);
+        Tensor output = _input.conv(_weight);
         output.add(_bias);
 
-        double f = af.f(output.getValue(0));
+        double f = af.f(output.getValue());
 
         return f;
     }

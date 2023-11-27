@@ -30,7 +30,7 @@ public class ConvolutionLayer extends Layer {
     private final int _kernelSize;
     private final ActivationFunction _af;
 
-    public ConvolutionLayer(int w, int h, int d, int stride, PaddingStrategy paddingStrategy,
+    public ConvolutionLayer(int d, int h, int w, int stride, PaddingStrategy paddingStrategy,
                                int kernelSize, ActivationFunction af){
         _filterWidth = w;
         _filterHeight = h;
@@ -77,20 +77,21 @@ public class ConvolutionLayer extends Layer {
         for(int i=0;i<_kernelSize;i++){
             //返回一个三维权重张量
             Tensor subWeight = _weight.sliceSubD(i);
+            Tensor subBias = _bias.sliceSubD(i);
 
             for(int j=0;j<_output.height();j++){
                 int hIndex = j*_stride;
                 for(int k=0;k<_output.width();k++){
                     int wIndex = k*_stride;
-                    String key = StringUtil.int2Str(hIndex, wIndex, hIndex + _filterHeight, wIndex + _filterWidth);
+                    String key = StringUtil.int2Str(hIndex, wIndex, hIndex + _filterHeight-1, wIndex + _filterWidth-1);
                     Tensor subInput = subInputMap.get(key);
                     if(subInput == null) {
-                        subInput = _input.slice2D(hIndex, wIndex, hIndex + _filterHeight, wIndex + _filterWidth);
+                        subInput = _input.slice2D(hIndex, wIndex, hIndex + _filterHeight-1, wIndex + _filterWidth-1);
                         subInputMap.put(key,subInput);
                     }
                     Location loc = new Location(new int[]{i,j,k});
                     Neuron neuron = _neuronMap.get(loc);
-                    neuron.assignMatrix(subInput,subWeight,_bias.sliceSubD(i));
+                    neuron.assignMatrix(subInput,subWeight,subBias);
                 }
             }
         }

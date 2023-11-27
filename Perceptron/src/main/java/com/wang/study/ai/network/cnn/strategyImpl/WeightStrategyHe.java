@@ -5,7 +5,7 @@ import com.wang.study.ai.network.cnn.WeightStrategy;
 public class WeightStrategyHe extends WeightStrategy {
     @Override
     public double getWeight(long n) {
-        double d = Math.sqrt(6/n);
+        double d = Math.sqrt(6/(double)n);
         return d;
     }
 

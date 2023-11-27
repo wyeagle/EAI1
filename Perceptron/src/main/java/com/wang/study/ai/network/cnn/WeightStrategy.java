@@ -7,7 +7,7 @@ public abstract class WeightStrategy {
     public static WeightStrategy newInstance(WeightEnum we) {
         WeightStrategy ws = null;
         switch(we){
-            case HE:ws = new WeightStrategyHe();
+            case HE:ws = new WeightStrategyHe();break;
         }
         return ws;
     }

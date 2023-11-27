@@ -208,9 +208,9 @@ public class StringUtil {
 		String s = "";
 		for(int i=0;i<is.length;i++){
 			if(i!= is.length-1){
-				s += i+":";
+				s += is[i]+":";
 			}else{
-				s += i;
+				s += is[i];
 			}
 		}
 		return s;

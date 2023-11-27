@@ -7,11 +7,11 @@ public abstract class ActivationFunction extends BaseFunction {
     public static ActivationFunction newInstance(ActivationEnum ae){
         ActivationFunction af = null;
         switch(ae){
-            case Relu:af = new ReluFunction();
-            case LeakyRelu:af = new LeakyReluFunction();
-            case Sigmoid:af = new SigmoidFunction();
-            case Softmax:af = new SoftmaxFunction();
-            case Sign:af = new SignFunction();
+            case Relu:af = new ReluFunction();break;
+            case LeakyRelu:af = new LeakyReluFunction();break;
+            case Sigmoid:af = new SigmoidFunction();break;
+            case Softmax:af = new SoftmaxFunction();break;
+            case Sign:af = new SignFunction();break;
         }
 
         return af;

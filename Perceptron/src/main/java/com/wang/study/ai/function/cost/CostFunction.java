@@ -10,8 +10,8 @@ public abstract class CostFunction extends BaseFunction {
     public static CostFunction newInstance(CostEnum ae){
         CostFunction cf = null;
         switch(ae){
-            case BCE:cf = new BCECostFunction();
-            case MSE:cf = new MSECostFunction();
+            case BCE:cf = new BCECostFunction();break;
+            case MSE:cf = new MSECostFunction();break;
         }
         return cf;
     }

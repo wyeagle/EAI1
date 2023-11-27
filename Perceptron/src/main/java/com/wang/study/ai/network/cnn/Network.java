@@ -10,12 +10,13 @@ import com.wang.study.ai.network.result.NetworkResult;
 import com.wang.study.ai.tensor.Tensor;
 import com.wang.study.ai.util.FileUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class Network {
-    List<Layer> _layerList;
+    List<Layer> _layerList = null;
     TrainingParam _trainingParam;
 
     private InputLayer _inputLayer;
@@ -25,6 +26,7 @@ public class Network {
     WorkMemory _memory;
 
     protected Network(List<Layer> layerList,WeightStrategy ws){
+        _layerList = layerList;
         _inputLayer = (InputLayer)layerList.get(0);
         _outputLayer = (OutputLayer)layerList.get(layerList.size()-1);
         _weightStrategy = ws;

@@ -7,7 +7,7 @@ public abstract class PaddingStrategy {
     public static PaddingStrategy newInstance(PaddingEnum pe) {
         PaddingStrategy ps = null;
         switch(pe){
-            case VALID:ps = new PaddingStrategyValid();
+            case VALID:ps = new PaddingStrategyValid();break;
         }
         return ps;
     }

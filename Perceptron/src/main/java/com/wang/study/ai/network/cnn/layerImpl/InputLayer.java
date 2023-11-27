@@ -16,7 +16,7 @@ public class InputLayer extends Layer {
     private final int _depth;
     private Tensor _input;
 
-    public InputLayer(int w,int h,int d){
+    public InputLayer(int d,int h,int w){
         _width = w;
         _height = h;
         _depth = d;
@@ -25,7 +25,13 @@ public class InputLayer extends Layer {
 
     @Override
     protected void build() {
-        _output = Tensors.create(_input.shape());
+        int[] shape = null;
+        if(_depth > 0 && _height >0 && _width >0){
+            shape = new int[]{_depth,_height,_width};
+        }else if(_depth <= 0){
+            shape = new int[]{_height,_width};
+        }
+        _output = Tensors.create(shape);
     }
 
     @Override

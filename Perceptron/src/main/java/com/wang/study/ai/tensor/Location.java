@@ -2,6 +2,7 @@ package com.wang.study.ai.tensor;
 
 import com.wang.study.ai.util.StringUtil;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,12 @@ public class Location {
             return false;
         }
         return this.hashCode() == ((Location)obj).hashCode() ? true:false;
+    }
+
+    public Location subLoc(){
+        int[] subs = Arrays.copyOfRange(_loc,1,_loc.length);
+        Location subLoc = new Location(subs);
+        return subLoc;
     }
 
     public static void main(String[] args){

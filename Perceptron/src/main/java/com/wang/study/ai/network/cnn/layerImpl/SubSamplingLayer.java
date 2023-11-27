@@ -19,7 +19,7 @@ public class SubSamplingLayer extends Layer {
     private final int _height;
     private final int _stride;
 
-    public SubSamplingLayer(int w, int h, int stride){
+    public SubSamplingLayer(int h, int w, int stride){
         _width = w;
         _height = h;
         _stride = stride;
@@ -42,7 +42,7 @@ public class SubSamplingLayer extends Layer {
                     //按maxPool处理池化
                     //将3维输入降为2维，然后截取指定范围，最后对此范围求最大值
                     double max = _input.sliceSubD(i)
-                            .slice2D(hIndex, wIndex, hIndex + _height, wIndex + _width)
+                            .slice2D(hIndex, wIndex, hIndex + _height - 1, wIndex + _width - 1)
                             .max();
                     Location loc = new Location(new int[]{i,j,k});
                     _output.setValue(loc,max);

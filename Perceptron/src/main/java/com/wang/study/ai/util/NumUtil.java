@@ -129,6 +129,14 @@ public class NumUtil {
 		return cd;
 	}
 
+	public static int[] clone(int[] d){
+		int[] cd = new int[d.length];
+		for(int i=0;i<d.length;i++)
+			cd[i] = d[i];
+
+		return cd;
+	}
+
 	/**
 	 * sValue是num2Str(valueList)格式，即"1,2,3"，数字由","分隔
 	 * @param sValue
@@ -191,6 +199,20 @@ public class NumUtil {
 			if(max < d){
 				max = d;
 			}
+		}
+		return max;
+	}
+
+	public static double max(double[][] ds){
+		double max = -100000000000000000000000000000d;
+		//double max = Double.MIN_VALUE;
+		for(int i=0;i<ds.length;i++){
+			for(int j=0;j<ds[0].length;j++){
+				if(max < ds[i][j]){
+					max = ds[i][j];
+				}
+			}
+
 		}
 		return max;
 	}
@@ -396,7 +418,13 @@ public class NumUtil {
 	 * @param end
 	 */
 	public static double random(double start, double end){
+
 		return start+Math.random()*(end-start);
+	}
+
+	public static int random(int start, int end){
+
+		return (int)(start+Math.random()*(end-start));
 	}
 
 	public static double[] array2double(List<String> strList){
@@ -482,5 +510,21 @@ public class NumUtil {
 
 	public static boolean isEqual(double d1, double d2){
 		return isEqual(d1,d2,MINVALUE.doubleValue());
+	}
+
+	public static boolean isEqual(int[] i1,int[] i2){
+		if(i1 == null || i2 == null){
+			return false;
+		}
+		if(i1.length != i2.length){
+			return false;
+		}
+		for(int i=0;i<i1.length;i++){
+			if(i1[i] != i2[i]){
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

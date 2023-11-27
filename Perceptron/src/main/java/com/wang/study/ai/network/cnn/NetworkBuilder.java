@@ -14,58 +14,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkBuilder {
-    private NetworkBuilder _builder = new NetworkBuilder();
+
 
     List<Layer> _layerList = new ArrayList<>();
     WeightEnum _weightEnum = WeightEnum.HE;
 
     public NetworkBuilder build(WeightEnum we){
         _weightEnum = we;
-        return _builder;
+        return this;
     }
 
     /**
      * 构建输入层参数
-     * @param w 宽度
-     * @param h 高度
      * @param d 深度
+     * @param h 高度
+     * @param w 宽度
      * @return
      */
-    public NetworkBuilder buildInputLayer(int w, int h, int d){
-        InputLayer layer = new InputLayer(w,h,d);
+    public NetworkBuilder buildInputLayer(int d,int h,int w){
+        InputLayer layer = new InputLayer(d,h,w);
         _layerList.add(layer);
-        return _builder;
+        return this;
     }
 
     /**
      * 构建卷积层参数
-     * @param w 宽度
-     * @param h 高度
-     * @param d 通道数（必须和前一层输出通道数相同)
+     * @param filterDepth 通道数（必须和前一层输出通道数相同)
+     * @param filterHeight 高度
+     * @param filterWidth 宽度
      * @param stride 步长
      * @param type 填充方式
      * @param kernelSize 卷积核数量
      * @param ae 激活函数
      * @return
      */
-    public NetworkBuilder buildConvolutionLayer(int w, int h, int d, int stride, PaddingEnum type,
+    public NetworkBuilder buildConvolutionLayer(int filterDepth,int filterHeight,int filterWidth, int stride, PaddingEnum type,
                                                 int kernelSize, ActivationEnum ae){
-        ConvolutionLayer layer = new ConvolutionLayer(w,h,d,stride,PaddingStrategy.newInstance(type),kernelSize,ActivationFunction.newInstance(ae));
+        ConvolutionLayer layer = new ConvolutionLayer(filterDepth,filterHeight,filterWidth,stride,PaddingStrategy.newInstance(type),kernelSize,ActivationFunction.newInstance(ae));
         _layerList.add(layer);
-        return _builder;
+        return this;
     }
 
     /**
      * 构建下采样(池化层)参数
-     * @param w 宽度
      * @param h 高度
+     * @param w 宽度
      * @param stride 步长
      * @return
      */
-    public NetworkBuilder buildSubSamplingLayer(int w, int h, int stride){
+    public NetworkBuilder buildSubSamplingLayer(int h, int w, int stride){
         SubSamplingLayer layer = new SubSamplingLayer(w,h,stride);
         _layerList.add(layer);
-        return _builder;
+        return this;
     }
 
     /**
@@ -77,7 +77,7 @@ public class NetworkBuilder {
     public NetworkBuilder buildFCLayer(int size,ActivationEnum ae){
         FCLayer layer = new FCLayer(size,ActivationFunction.newInstance(ae));
         _layerList.add(layer);
-        return _builder;
+        return this;
     }
 
     /**
@@ -90,7 +90,7 @@ public class NetworkBuilder {
     public NetworkBuilder buildOutputLayer(int size, ActivationEnum ae, CostEnum ce){
         OutputLayer layer = new OutputLayer(size,ActivationFunction.newInstance(ae),CostFunction.newInstance(ce));
         _layerList.add(layer);
-        return _builder;
+        return this;
     }
 
     public Network createNetwork(){
