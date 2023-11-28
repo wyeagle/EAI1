@@ -39,9 +39,7 @@ public class NetworkFCTest {
         double[][] ds = new double[2][1];
         for(int i=0;i<ds.length;i++){
             for(int j=0;j<ds[0].length;j++){
-
                 ds[i][j] = NumUtil.random(min,max);
-
             }
         }
         return ds;

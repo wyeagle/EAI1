@@ -223,7 +223,7 @@ public class NetworkTestDigit9 extends CommonTest {
     @Test
     public void testTrained2() throws Exception{
 
-        String file = "1700534447796_10.nw";
+        String file = "1701089509180_12.nw";
 
         String testFile = "Network/digit/nts_digit09.dg";
 

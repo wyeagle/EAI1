@@ -125,6 +125,10 @@ public abstract class Tensor {
     }
 
     public Tensor flat2D() {
+        int[] flatShape = new int[]{numValues(),1};
+        if(NumUtil.isEqual(this.shape(),flatShape)){
+            return this;
+        }
         Tensor2 tensor = (Tensor2)Tensors.create(new int[]{numValues(),1},0);
         double[] all = flat1D();
 

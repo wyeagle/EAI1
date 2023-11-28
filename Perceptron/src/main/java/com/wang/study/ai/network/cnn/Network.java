@@ -142,7 +142,6 @@ public class Network {
         }
 
         if(isOver || (count % 10 == 1 && _trainingParam._batchSize >= 10000) || (count % 1000 == 1 && _trainingParam._batchSize < 10000)) {
-
             System.out.println(new Date()+":Current batch[" + batchNo + "][" + count + "] " +
                     "avgerage error = " + avgDiff + ":isOver = " + isOver+": abort = "+canAbort+": current errorcount = "+errorCount);
         }
@@ -170,7 +169,6 @@ public class Network {
             Layer layer = _layerList.get(i);
             layer.adjustWeight();
         }
-       // LogAction.logFirstAdjustW(this);
     }
 
 
