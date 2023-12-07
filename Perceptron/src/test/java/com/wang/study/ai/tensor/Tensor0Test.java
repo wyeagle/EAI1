@@ -139,11 +139,11 @@ public class Tensor0Test {
         ActivationFunction af = new ReluFunction();
 
         Tensor t = create(1);
-        t.func(af);
+        t.func(af,true);
         Assert.assertEquals(1,t.getValue(loc),0);
 
         t = create(-1);
-        t.func(af);
+        t.func(af,true);
         Assert.assertEquals(0,t.getValue(loc),0);
     }
 
@@ -162,7 +162,7 @@ public class Tensor0Test {
         Tensor t1 = create(3);
         Tensor t2 = create(5);
 
-        Tensor0 t3 = (Tensor0)t1.product(t2);
+        Tensor0 t3 = (Tensor0)t1.matmul(t2);
         Location loc = new Location(new int[0]);
         Assert.assertEquals(15,t3.getValue(loc),0);
     }

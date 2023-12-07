@@ -1,14 +1,13 @@
 package com.wang.study.ai.tensor;
 
-public class Tensor3 extends CompositeTensor {
-
+public class Tensor5 extends CompositeTensor {
     @Override
     protected Tensor newSubTensor() {
-        return new Tensor2();
+        return new Tensor4();
     }
 
     @Override
     protected Tensor[] newSubTensors(int length) {
-        return new Tensor2[length];
+        return new Tensor4[length];
     }
 }

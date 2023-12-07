@@ -134,7 +134,7 @@ public class Tensor1Test extends TensorTest{
         Location loc = new Location(new int[]{1});
         t.setValue(loc,-1);
 
-        t.func(new ReluFunction());
+        t.func(new ReluFunction(),true);
         double[] valids = new double[]{1,0,1,1,1};
 
 
@@ -160,7 +160,7 @@ public class Tensor1Test extends TensorTest{
         Tensor t2 = create(5,5,5);
 
 
-        Tensor t3 = t1.product(t2);
+        Tensor t3 = t1.matmul(t2);
         Assert.assertEquals(1,t3.numDimensions());
         Assert.assertEquals(5,t3.numValues());
         for(int i=0;i<t3.numValues();i++){

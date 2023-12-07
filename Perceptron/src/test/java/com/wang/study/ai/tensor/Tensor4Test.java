@@ -188,25 +188,27 @@ public class Tensor4Test extends TensorTest{
         t.setValue(new Location(new int[]{1,0,1,1}),-1);
         t.setValue(new Location(new int[]{1,1,1,1}),-1);
 
-        t.func(new ReluFunction());
+        t.func(new ReluFunction(),true);
         double[][] valids = new double[][]{{2,2},{2,0}};
 
-        for(Tensor3 t3:t._value)
-            for(Tensor2 t2:t3._value)
-                AssertUtil.assertEquals(valids,t2._value);
+        for(Tensor st:t._value) {
+            Tensor3 t3 = (Tensor3)st;
+            for (Tensor tt : t3._value) {
+                Tensor2 t2 = (Tensor2) tt;
+                AssertUtil.assertEquals(valids, t2._value);
+            }
+        }
+
     }
 
     @Test
     public void conv() {
-
         Tensor t1 = create(2,2,2,5,5,2);
         Tensor t2 = create(5,5,2,5,5,2);
-
 
         Tensor0 t3 = (Tensor0)t1.conv(t2);
         Location loc = new Location(new int[0]);
         Assert.assertEquals(1000,t3.getValue(loc),0);
-
     }
 
     @Test
@@ -215,16 +217,21 @@ public class Tensor4Test extends TensorTest{
         Tensor t2 = create(5,5,2,5,3,1);
 
 
-        Tensor4 t4 = (Tensor4)t1.product(t2);
+        Tensor4 t4 = (Tensor4)t1.matmul(t2);
         Assert.assertEquals(4,t4.numDimensions());
         Assert.assertEquals(50,t4.numValues());
         Assert.assertArrayEquals(new int[]{2,5,5,1},t4._shape);
 
         double[][] valids = new double[][]{{30},{30},{30},{30},{30}};
 
-        for(Tensor3 st3:t4._value)
-            for(Tensor2 st2: st3._value)
-                AssertUtil.assertEquals(valids,st2._value);
+        for(Tensor tt3:t4._value) {
+            Tensor3 st3 = (Tensor3)tt3;
+            for (Tensor tt : st3._value) {
+                Tensor2 st2 = (Tensor2) tt;
+                AssertUtil.assertEquals(valids, st2._value);
+            }
+        }
+
     }
 
     @Test

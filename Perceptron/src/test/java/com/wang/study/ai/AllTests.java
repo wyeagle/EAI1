@@ -13,6 +13,7 @@ import org.junit.runners.Suite;
                 PerceptronTest.class,
                 NetworkTest00.class,
                 NetworkTest10.class,
+                LocationTest.class,
                 Tensor0Test.class,
                 Tensor1Test.class,
                 Tensor2Test.class,

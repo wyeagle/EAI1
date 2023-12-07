@@ -102,6 +102,7 @@ public class ConvolutionLayer extends Layer {
         double value = _weightStrategy.getWeight(number);
         _weight = Tensors.create(new int[]{_kernelSize,_filterDepth,_filterHeight,_filterWidth},-value,value);
 
+
         value = _weightStrategy.getBias(number);
         _bias = Tensors.create(new int[]{_kernelSize},-value,value);
     }
@@ -154,7 +155,10 @@ public class ConvolutionLayer extends Layer {
         int[] size = new int[2];
         size[0] = (_frontLayer._output.height()-_filterHeight+2*paddingNum)/_stride+1;
         size[1] = (_frontLayer._output.width()-_filterWidth+2*paddingNum)/_stride+1;
-
         return size;
+    }
+
+    protected void calcWeight(double rate){
+
     }
 }

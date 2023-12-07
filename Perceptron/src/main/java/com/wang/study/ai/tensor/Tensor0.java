@@ -1,5 +1,6 @@
 package com.wang.study.ai.tensor;
 
+import com.wang.study.ai.function.BaseFunction;
 import com.wang.study.ai.function.activation.ActivationFunction;
 import com.wang.study.ai.util.NumUtil;
 
@@ -50,8 +51,11 @@ public class Tensor0 extends Tensor{
     }
 
     @Override
-    public void func(ActivationFunction af) {
-        _value = af.f(_value);
+    public void func(BaseFunction af, boolean isFunc) {
+        if(isFunc)
+            _value = af.f(_value);
+        else
+            _value = af.df(_value);
     }
 
     @Override
@@ -68,12 +72,33 @@ public class Tensor0 extends Tensor{
     }
 
     @Override
-    public Tensor product(Tensor t) {
+    public Tensor matmul(Tensor t) {
         return conv(t);
     }
 
     @Override
     public double[] flat1D() {
         return new double[]{_value};
+    }
+
+    protected void subtract1(Tensor t){
+        Tensor0 t0 = (Tensor0)t;
+        _value -= t0._value;
+    }
+    protected void multiply1(Tensor t){
+        Tensor0 t0 = (Tensor0)t;
+        _value *= t0._value;
+    }
+    protected void divide1(Tensor t){
+        Tensor0 t0 = (Tensor0)t;
+        _value /= t0._value;
+    }
+
+    public void add(double d){
+        _value += d;
+    }
+
+    public void multiply(double d){
+        _value *= d;
     }
 }

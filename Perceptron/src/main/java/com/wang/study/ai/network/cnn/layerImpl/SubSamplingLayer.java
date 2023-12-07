@@ -59,4 +59,6 @@ public class SubSamplingLayer extends Layer {
 
         return size;
     }
+
+
 }

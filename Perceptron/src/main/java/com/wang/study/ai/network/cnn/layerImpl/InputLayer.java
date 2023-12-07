@@ -43,4 +43,5 @@ public class InputLayer extends Layer {
     public void assignInputs(Tensor input){
         _input = input;
     }
+
 }

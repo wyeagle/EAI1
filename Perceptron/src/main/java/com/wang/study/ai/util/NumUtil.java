@@ -5,6 +5,8 @@
 package com.wang.study.ai.util;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -125,6 +127,17 @@ public class NumUtil {
 		double[] cd = new double[d.length];
 		for(int i=0;i<d.length;i++)
 			cd[i] = d[i];
+
+		return cd;
+	}
+
+
+
+	public static double[][] clone(double[][] d){
+		double[][] cd = new double[d.length][d[0].length];
+		for(int i=0;i<d.length;i++)
+			for(int j=0;j<d[i].length;j++)
+				cd[i][j] = d[i][j];
 
 		return cd;
 	}

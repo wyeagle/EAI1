@@ -35,9 +35,14 @@ public class Network {
 
     protected void build(){
         Layer frontLayer = null;
-        for(Layer layer:_layerList){
-            layer.build(frontLayer,_weightStrategy);
-            frontLayer = layer;
+        Layer nextLayer = null;
+
+        for(int i=0;i<_layerList.size();i++){
+            if(i>0)
+                frontLayer = _layerList.get(i-1);
+            if(i<_layerList.size()-1)
+                nextLayer = _layerList.get(i+1);
+            _layerList.get(i).build(frontLayer,nextLayer,_weightStrategy);
         }
         _memory = new WorkMemory();
     }
@@ -150,7 +155,7 @@ public class Network {
         }
 
         if(!isOver)
-            adjustWeight();
+            adjustWeight(errorCount);
 
         return isOver;
     }
@@ -158,16 +163,16 @@ public class Network {
     void calcWeight(){
         for(int i=_layerList.size()-1;i>=0;i--){
             Layer layer = _layerList.get(i);
-            layer.calcWeight();
+            layer.calcWeight(_trainingParam._rate);
         }
     }
 
-    void adjustWeight(){
+    void adjustWeight(int errorCount){
         _memory.addAdjustCount();
 
         for(int i=_layerList.size()-1;i>=0;i--){
             Layer layer = _layerList.get(i);
-            layer.adjustWeight();
+            layer.adjustWeight(errorCount);
         }
     }
 

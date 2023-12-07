@@ -184,11 +184,13 @@ public class Tensor3Test extends TensorTest{
         loc = new Location(new int[]{1,1,1});
         t.setValue(loc,-1);
 
-        t.func(new ReluFunction());
+        t.func(new ReluFunction(),true);
         double[][] valids = new double[][]{{2,2},{2,0}};
 
-        for(Tensor2 t2:t._value)
-            AssertUtil.assertEquals(valids,t2._value);
+        for(Tensor t2:t._value) {
+            Tensor2 tt = (Tensor2)t2;
+            AssertUtil.assertEquals(valids, tt._value);
+        }
     }
 
     @Test
@@ -210,15 +212,18 @@ public class Tensor3Test extends TensorTest{
         Tensor t2 = create(5,5,5,3,1);
 
 
-        Tensor3 t3 = (Tensor3)t1.product(t2);
+        Tensor3 t3 = (Tensor3)t1.matmul(t2);
         Assert.assertEquals(3,t3.numDimensions());
         Assert.assertEquals(25,t3.numValues());
         Assert.assertArrayEquals(new int[]{5,5,1},t3._shape);
 
         double[][] valids = new double[][]{{30},{30},{30},{30},{30}};
 
-        for(Tensor2 st:t3._value)
+        for(Tensor tt:t3._value){
+            Tensor2 st = (Tensor2)tt;
             AssertUtil.assertEquals(valids,st._value);
+        }
+
     }
 
     @Test

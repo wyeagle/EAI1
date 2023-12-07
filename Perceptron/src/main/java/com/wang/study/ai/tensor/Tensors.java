@@ -92,4 +92,5 @@ public class Tensors {
         tensor.createData(min,max);
         return tensor;
     }
+
 }

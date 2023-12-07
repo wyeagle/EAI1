@@ -1,8 +1,8 @@
 package com.wang.study.ai.tensor;
 
 import com.wang.study.ai.common.EAIException;
+import com.wang.study.ai.function.BaseFunction;
 import com.wang.study.ai.function.activation.ActivationFunction;
-import com.wang.study.ai.network.Matrix;
 import com.wang.study.ai.util.NumUtil;
 
 public class Tensor2 extends Tensor{
@@ -85,14 +85,17 @@ public class Tensor2 extends Tensor{
     }
 
     @Override
-    public void func(ActivationFunction af) {
+    public void func(BaseFunction af, boolean isFunc) {
         double[] alls = null;
         if(width() == 1){
             alls = flat1D();
         }
         for(int i=0;i<height();i++) {
             for (int j = 0; j < width(); j++) {
-                _value[i][j] = af.f(_value[i][j], alls);
+                if(isFunc)
+                    _value[i][j] = af.f(_value[i][j], alls);
+                else
+                    _value[i][j] = af.df(_value[i][j], alls);
             }
         }
     }
@@ -128,11 +131,11 @@ public class Tensor2 extends Tensor{
     }
 
     @Override
-    public Tensor product(Tensor t) {
+    public Tensor matmul(Tensor t) {
         Tensor2 t2 = (Tensor2)t;
         Tensor2 nt2 = (Tensor2)Tensors.create(new int[]{height(),t2.width()});
 
-        nt2._value = product(_value,t2._value);
+        nt2._value = matmul(_value,t2._value);
 
         return nt2;
     }
@@ -150,7 +153,7 @@ public class Tensor2 extends Tensor{
     }
 
 
-    private static double[][] product(double[][] m1, double[][] m2) {
+    private static double[][] matmul(double[][] m1, double[][] m2) {
         if (m1[0].length != m2.length) {
             throw new EAIException(
                     "The number of cols in the left matrix must equal to the number of rows in the right matrix! ");
@@ -172,5 +175,67 @@ public class Tensor2 extends Tensor{
 
         return result;
 
+    }
+
+    protected void subtract1(Tensor t){
+        Tensor2 t2 = (Tensor2)t;
+        for(int i=0;i<height();i++) {
+            for (int j = 0; j < width(); j++) {
+                _value[i][j] -= t2._value[i][j];
+            }
+        }
+    }
+    protected void multiply1(Tensor t){
+    	Tensor2 t2 = (Tensor2)t;
+    	for(int i=0;i<height();i++) {
+    		for (int j = 0; j < width(); j++) {
+    			_value[i][j] *= t2._value[i][j];
+    		}
+    	}
+    }
+    protected void divide1(Tensor t){
+    	Tensor2 t2 = (Tensor2)t;
+    	for(int i=0;i<height();i++) {
+    		for (int j = 0; j < width(); j++) {
+    			_value[i][j] /= t2._value[i][j];
+    		}
+    	}
+    }
+
+    public void add(double d){
+    	for(int i=0;i<_value.length;i++){
+    		for(int j=0;j<_value[0].length;j++){
+    			_value[i][j] += d;
+    		}
+    	}
+    }
+
+    public void multiply(double d){
+    	for(int i=0;i<_value.length;i++){
+    		for(int j=0;j<_value[0].length;j++){
+    			_value[i][j] *= d;
+    		}
+    	}
+    }
+
+    @Override
+    public Object clone() {
+        Tensor2 cloneTensor = (Tensor2)super.clone();
+        cloneTensor._value = NumUtil.clone(_value);
+        return cloneTensor;
+    }
+
+    @Override
+    public Tensor transpose(){
+        Tensor2 nt = (Tensor2)Tensors.create(new int[]{_shape[1],_shape[0]});
+
+        double[][] result = new double[_shape[1]][_shape[0]];
+        for (int i = 0; i < _shape[0]; i++) {
+            for (int j = 0; j < _shape[1]; j++) {
+                result[j][i] = _value[i][j];
+            }
+        }
+
+        return nt;
     }
 }

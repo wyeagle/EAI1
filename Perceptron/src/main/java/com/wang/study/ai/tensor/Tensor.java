@@ -1,9 +1,12 @@
 package com.wang.study.ai.tensor;
 
 import com.wang.study.ai.common.EAIException;
+import com.wang.study.ai.function.BaseFunction;
 import com.wang.study.ai.function.activation.ActivationFunction;
 import com.wang.study.ai.util.NumUtil;
 import com.wang.study.ai.util.PubUtil;
+
+import java.math.BigDecimal;
 
 /**
  * 只支持4维
@@ -124,6 +127,39 @@ public abstract class Tensor {
         add1(t);
     }
 
+    public void subtract(Tensor t){
+        if(NumUtil.isEqual(_shape,t._shape)==false){
+            throw new EAIException("Tensor must be same shape! "+ PubUtil.print(_shape)+":"+PubUtil.print(t._shape));
+        }
+        subtract1(t);
+    }
+
+    public void multiply(Tensor t){
+        if(NumUtil.isEqual(_shape,t._shape)==false){
+            throw new EAIException("Tensor must be same shape! "+ PubUtil.print(_shape)+":"+PubUtil.print(t._shape));
+        }
+        multiply1(t);
+    }
+
+    public void divide(Tensor t){
+        if(NumUtil.isEqual(_shape,t._shape)==false){
+            throw new EAIException("Tensor must be same shape! "+ PubUtil.print(_shape)+":"+PubUtil.print(t._shape));
+        }
+        divide1(t);
+    }
+
+    public void subtract(double d){
+        add(-d);
+    }
+
+
+
+    public void divide(double d){
+        multiply(1/d);
+    }
+
+
+
     public Tensor flat2D() {
         int[] flatShape = new int[]{numValues(),1};
         if(NumUtil.isEqual(this.shape(),flatShape)){
@@ -137,6 +173,15 @@ public abstract class Tensor {
         }
 
         return tensor;
+    }
+
+    protected int[] mixShape(Tensor t, Tensor subT){
+        int[] nShape = new int[t._shape.length];
+        nShape[0] = t._shape[0];
+        for(int i=0;i<subT._shape.length;i++){
+            nShape[i+1] = subT._shape[i];
+        }
+        return nShape;
     }
 
     /////////////////////////////////////////////////
@@ -170,6 +215,14 @@ public abstract class Tensor {
      */
     public abstract Tensor slice2D(int startH,int startW,int endH,int endW);
 
+    public Tensor sliceWidth(int startW,int stride){
+        return slice2D(0,startW,height()-1,startW+stride);
+    }
+
+    public Tensor sliceHeight(int startH,int stride){
+        return slice2D(startH,0,startH+stride,width()-1);
+    }
+
     protected abstract void init();
 
     public abstract void padding(int padNum,double value);
@@ -186,8 +239,10 @@ public abstract class Tensor {
      * 对于N*1结尾的可以加入double[](包含N数据，for softmax函数使用). 如果非结构，actualValue
      * af.f(double actualValue, double[] allOutputs)
      * @param af
+     * @param isFunc true-正常函数， false-求导
+     *
      */
-    public abstract void func(ActivationFunction af);
+    public abstract void func(BaseFunction af, boolean isFunc);
 
     /**
      * 按shape生成数据结构,并按[min,max]区间随机赋值
@@ -206,7 +261,7 @@ public abstract class Tensor {
      * @param t
      * @return
      */
-    public abstract Tensor product(Tensor t);
+    public abstract Tensor matmul(Tensor t);
 
     /**
      * 按一维打平，即数组
@@ -214,12 +269,33 @@ public abstract class Tensor {
      */
     public abstract double[] flat1D();
 
-    protected int[] mixShape(Tensor t, Tensor subT){
-        int[] nShape = new int[t._shape.length];
-        nShape[0] = t._shape[0];
-        for(int i=0;i<subT._shape.length;i++){
-            nShape[i+1] = subT._shape[i];
+    public void insertWidth(int width,Tensor tensor){
+        unsupoort();
+    }
+
+    public void insertHeight(int height,Tensor tensor){
+        unsupoort();
+    }
+
+    protected abstract void subtract1(Tensor t);
+    protected abstract void multiply1(Tensor t);
+    protected abstract void divide1(Tensor t);
+
+    public abstract void add(double d);
+
+    public abstract void multiply(double d);
+
+    public Tensor transpose(){unsupoort(); return null;}
+
+    @Override
+    public Object clone() {
+        Tensor cloneTensor = null;
+        try {
+            cloneTensor = (Tensor) super.clone();
+            cloneTensor._shape = NumUtil.clone(_shape);
+        }catch(Exception e){
+            throw new EAIException(this.getClass().getSimpleName()+" clone error:"+e.getMessage());
         }
-        return nShape;
+        return cloneTensor;
     }
 }

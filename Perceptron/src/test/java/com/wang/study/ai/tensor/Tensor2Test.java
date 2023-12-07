@@ -192,7 +192,7 @@ public class Tensor2Test extends TensorTest{
         Location loc = new Location(new int[]{1,1});
         t.setValue(loc,-1);
 
-        t.func(new ReluFunction());
+        t.func(new ReluFunction(),true);
         double[][] valids = new double[][]{{2,2},{2,0}};
 
         AssertUtil.assertEquals(valids,t._value);
@@ -217,7 +217,7 @@ public class Tensor2Test extends TensorTest{
         Tensor t2 = create(5,5,3,1);
 
 
-        Tensor2 t3 = (Tensor2)t1.product(t2);
+        Tensor2 t3 = (Tensor2)t1.matmul(t2);
         Assert.assertEquals(2,t3.numDimensions());
         Assert.assertEquals(5,t3.numValues());
         Assert.assertArrayEquals(new int[]{5,1},t3._shape);

@@ -1,5 +1,7 @@
 package com.wang.study.ai.tensor;
 
+import com.wang.study.ai.common.EAIException;
+import com.wang.study.ai.function.BaseFunction;
 import com.wang.study.ai.function.activation.ActivationFunction;
 import com.wang.study.ai.util.NumUtil;
 
@@ -67,9 +69,12 @@ public class Tensor1 extends Tensor{
     }
 
     @Override
-    public void func(ActivationFunction af) {
+    public void func(BaseFunction af, boolean isFunc) {
         for(int i=0;i<_value.length;i++){
-            _value[i] = af.f(_value[i]);
+            if(isFunc)
+                _value[i] = af.f(_value[i]);
+            else
+                _value[i] = af.df(_value[i]);
         }
     }
 
@@ -97,7 +102,7 @@ public class Tensor1 extends Tensor{
     }
 
     @Override
-    public Tensor product(Tensor t) {
+    public Tensor matmul(Tensor t) {
         Tensor1 t1 = (Tensor1)t;
         Tensor1 newT = (Tensor1)Tensors.create(_shape,0);
         for(int i=0;i<_value.length;i++){
@@ -109,5 +114,44 @@ public class Tensor1 extends Tensor{
     @Override
     public double[] flat1D() {
         return _value;
+    }
+
+    protected void subtract1(Tensor t){
+        Tensor1 t1 = (Tensor1)t;
+        for(int i=0;i<_value.length;i++){
+            _value[i] -= t1._value[i];
+        }
+    }
+    protected void multiply1(Tensor t){
+        Tensor1 t1 = (Tensor1)t;
+        for(int i=0;i<_value.length;i++){
+            _value[i] *= t1._value[i];
+        }
+    }
+
+    protected void divide1(Tensor t){
+    	Tensor1 t1 = (Tensor1)t;
+    	for(int i=0;i<_value.length;i++){
+    		_value[i] /= t1._value[i];
+    	}
+    }
+
+    public void add(double d){
+    	for(int i=0;i<_value.length;i++){
+    		_value[i] += d;
+    	}
+    }
+
+    public void multiply(double d){
+        for(int i=0;i<_value.length;i++){
+            _value[i] *= d;
+        }
+    }
+
+    @Override
+    public Object clone() {
+        Tensor1 cloneTensor = (Tensor1)super.clone();
+        cloneTensor._value = NumUtil.clone(_value);
+        return cloneTensor;
     }
 }
